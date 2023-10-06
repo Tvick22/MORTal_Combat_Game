@@ -2,10 +2,12 @@
 
   <div id="header">
     <nav>
-      <ul>
-        <div><a href="{{site.baseurl}}/">Home</a></div>
-        <div><a href="{{site.baseurl}}/plans">Plans</a></div>
-        <div><a href="{{ site.github.repository_url }}#readme">View On GitHub</a></div>
+      <ul class="linkList">
+        <div><a class="headerLink" href="{{site.baseurl}}/">Home</a></div>
+        <div><a class="headerLink" href="{{site.baseurl}}/plans">Plans</a></div>
+        <div><a class="headerLink" href="{{site.baseurl}}/timeBox">Time Box</a></div>
+        <div><a class="headerLink" href="https://colorhunt.co/palette/222831393e4600adb5eeeeee">Color Palette</a></div>
+        <div><a class="headerLink" href="{{ site.github.repository_url }}#readme">View On GitHub</a></div>
       </ul>
     </nav>
   </div><!-- end header -->
@@ -13,11 +15,23 @@
 
 <style>
   #header {
-    margin-top: 2%;
-    border-bottom: 3px white solid;
+    margin-top: 1%;
+    border-bottom: 2px #00ADB5 solid;
   }
-  ul {
+  .linkList {
     padding-top: 0%;
     margin-top: 0%;
+    display: flex;
+    justify-content: left;
+    gap: 10px;
+  }
+
+  .headerLink {
+    padding: 10px;
+    text-decoration: none;
+  }
+
+  .headerLink:hover {
+    background-color: #393E46;
   }
 </style>
