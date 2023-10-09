@@ -32,6 +32,6 @@ title: Plans
 
 1. Default Pokemon intro with a professor (Principal) talks to you, asks you which one you are
 2. You then select the character you want to play as 
-3. You're then introduced to (San) Diego Town and are told by your mom to go pick a Pokemort at the lab
+3. You're then introduced to (San) Diego Town and get a email from the school that it is pokemort picking day.
 4. At the lab, you arrive first and choose a Pokemort, rival (character you didn't pick) arrives late and chooses the Pokemort with the type advantage to yours 
 5. Both leave the lab and are told to go to the next town to go to start learning at the Pokemort School (name coming)
