@@ -62,6 +62,8 @@ courses: { versions: {week: 0} }
                 this.maxFrame = FRAME_LIMIT -1;
                 this.frameX = 0;
                 this.frameY = 0;
+                this.left = 0;
+                this.top = 0;
             }
 
             draw(context) {
@@ -113,6 +115,45 @@ courses: { versions: {week: 0} }
             }
         });
 
+        const validKeys = {
+            "w": "up" ,
+            "a": "left",
+            "s": "down",
+            "d": "right",
+            "ArrowUp": "up",
+            "ArrowDown": "down",
+            "ArrowLeft": "left",
+            "ArrowRight": "right",
+
+        }
+
+        document.addEventListener("keydown," (event) => {
+            const key = event.key
+            if (!Object.keys(validKeys),includes(key)) return;
+            cosnt direction = validKeys[key];
+            switch (direction) {
+                    case 'down':
+                        mort.frameY = 0;
+                        mort.top += 3
+                        break;
+                    case 'left':
+                        mort.frameY = 1;
+                        this.left += -3
+                        break;
+                    case 'right':
+                        mort.frameY = 2;
+                        this.left += 3
+                        break;
+                    case 'up':
+                        mort.frameY = 3;
+                        this.top += -3
+                        break;
+                    default:
+                        break;
+            }
+        })
+
+
         // Animation recursive control function
         function animate() {
             // Clears the canvas to remove the previous frame.
@@ -123,6 +164,8 @@ courses: { versions: {week: 0} }
 
             // Updates the `frameX` property to prepare for the next frame in the sprite sheet.
             mort.update();
+            document.getElementById("mortContainer").style.left = mort.left + "px"
+            document.getElementById("mortContainer").style.top = mort.top + "px"
 
             // Uses `requestAnimationFrame` to synchronize the animation loop with the display's refresh rate,
             // ensuring smooth visuals.
@@ -131,7 +174,9 @@ courses: { versions: {week: 0} }
 
         // run 1st animate
         animate();
-    });
+    })
+
+    
 </script>
 
 <style>
