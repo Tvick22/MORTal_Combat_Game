@@ -1,52 +1,36 @@
 ---
+title: Mort Sprite Animation
+description: Base animation for Mort sprite in Pokemort
 layout: post
-title: Version 1.0
-description: Initial Version
 type: game
-courses: { versions: {week: 0} }
+courses: {versions: {week: 0}}
 ---
 
-<head>
-    <meta name="layout" content="post">
-    <meta name="title" content="Version 1.0">
-    <meta name="description" content="Initial Version">
-    <meta name="type" content="game">
-    <meta name="courses" content="{ versions: {week: 0} }">
-</head>
-
-<html>
-    <div class="gameWrapper">
-        <div class="frameWrapper">
-            <div id="topMenu">
-                <button class="topMenuBtn" id="mainMenuBtn">Main Menu</button>
-                <button class="topMenuBtn" id="inventoryBtn">Inventory</button>
-                <button class="topMenuBtn" id="mapBtn">Map</button>
-            </div>
-            <canvas id="spriteContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
-                <img id="MortSprite" src="../../../images/transparentmortspritesheet.png">  // change sprite here
-            </canvas>
-            <div id="controls"> <!--basic radio buttons which can be used to check whether each individual animaiton works -->
-                <input type="radio" name="animation" id="walking down" checked>
-                <label for="walking down">Walking Down</label><br>
-                <input type="radio" name="animation" id="walking left">
-                <label for="walking left">Walking Left</label><br>
-                <input type="radio" name="animation" id="walking right">
-                <label for="walking right">Walking Right</label><br>
-                <input type="radio" name="animation" id="walking up">
-                <label for="walking up">Walking Up</label><br>
-            </div>
-            <img id="backgroundImage" width="854" height="850" src="../../../images/mortensenlabbackground.jpg"/>
+<body>
+    <div>
+        <canvas id="spriteContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
+            <img id="MortSprite" src="../../../images/transparentmortspritesheet.jpg">  // change sprite here
+        </canvas>
+        <div id="controls"> <!--basic radio buttons which can be used to check whether each individual animaiton works -->
+            <input type="radio" name="animation" id="walking down" checked>
+            <label for="walking down">Walking Down</label><br>
+            <input type="radio" name="animation" id="walking left">
+            <label for="walking left">Walking Left</label><br>
+            <input type="radio" name="animation" id="walking right">
+            <label for="walking right">Walking Right</label><br>
+            <input type="radio" name="animation" id="walking up">
+            <label for="walking up">Walking Up</label><br>
         </div>
     </div>
-</html>
+</body>
 
 <script>
     // start on page load
     window.addEventListener('load', function () {
         const canvas = document.getElementById('spriteContainer');
         const ctx = canvas.getContext('2d');
-        const SPRITE_WIDTH = 18.5;  // matches sprite pixel width
-        const SPRITE_HEIGHT = 25.8; // matches sprite pixel height
+        const SPRITE_WIDTH = 172;  // matches sprite pixel width
+        const SPRITE_HEIGHT = 180; // matches sprite pixel height
         const FRAME_LIMIT = 4;  // matches number of frames per sprite row, this code assume each row is same
 
         const SCALE_FACTOR = 2;  // control size of sprite on canvas
@@ -134,43 +118,6 @@ courses: { versions: {week: 0} }
     });
 </script>
 
-<style>
-    .frameWrapper {
-        margin: auto;
-        width: 854px;
-        border: 2px solid #00ADB5;
-        text-align: center;
-        margin-top: 1%;
-    }
-    
-    .topMenuBtn {
-        border: 0px;
-        background-color: #393E46;
-        padding: 15px;
-    }
-
-    .topMenuBtn:hover {
-        border: 0px;
-        background-color: #393e469f;
-        padding: 15px;
-    }
-
-    #topMenu {
-        display: flex;
-        gap: 10px;
-        background-color: #393e465c;
-        justify-content: space-evenly;
-        align-content: center;
-        flex-direction: row;
-        align-items: stretch;
-    }
-
-    #gameFrame {
-        background-color: #fff;
-        border-top: 2px solid #00ADB5;
-    }
-
-    #mortSprite {
-        position: absolute;
-    }
-</style>
+# Notes
+- Need to adjust dimensions once we can run make on this sprite
+- need to change from buttons to keybinds when added to the game
