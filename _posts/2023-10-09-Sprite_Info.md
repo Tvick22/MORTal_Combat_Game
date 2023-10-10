@@ -14,4 +14,4 @@ Mort Spritesheet = 74 px x 104 px
 
 Lopez Spritesheet = 169 px x 192 px
 1 Front/back Lopez = 41 px x 47 px
-1 right/left Lopez = 31 x 43 px
+1 right/left Lopez = 41 x 47 px
