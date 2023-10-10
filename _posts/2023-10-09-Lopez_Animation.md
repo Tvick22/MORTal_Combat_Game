@@ -123,5 +123,6 @@ courses: {version: {week: 0}}
 # Notes
 - Issue figuring out image source, could be a recurring issue
     - Will report on this in future animation notebooks
+    - 10/10 Issue resolved, need to create all future animation in .md
 - This interface is very rudimentary and directional changes are based on buttons
     - Will change to keybinds when sprites are added into game
