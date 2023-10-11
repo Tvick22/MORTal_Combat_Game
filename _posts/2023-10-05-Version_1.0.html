@@ -127,10 +127,10 @@ courses: { versions: {week: 0} }
 
         }
 
-        document.addEventListener("keydown," (event) => {
-            const key = event.key
-            if (!Object.keys(validKeys),includes(key)) return;
-            cosnt direction = validKeys[key];
+        document.addEventListener("keydown", (event) => {
+            const key = event.key;
+            if (!Object.keys(validKeys).includes(key)) return;
+            const direction = validKeys[key];
             switch (direction) {
                     case 'down':
                         mort.frameY = 0;
