@@ -1,10 +1,9 @@
 ---
-comments: True
 layout: post
 title: Week 8 Plan
 description: Plan of the Week
 type: plans
-courses: {'compsci': {'week': 0}}
+courses: {versions : {week: 0}}
 ---
 
 ## Sprite Info
