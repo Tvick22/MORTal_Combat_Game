@@ -26,7 +26,7 @@ courses: { versions: {week: 0} }
                 <img id="MortSprite" src="../../../images/transparentmortspritesheet.png">  // change sprite here
             </canvas>
             <canvas id="lopezContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
-                <img id="LopezSprite" src="../../../images/transparentlopezspritesheet.png">  // change sprite here
+                <img id="LopezSprite" src="../../../images/lopezspritesheet2.png">  // change sprite here
             </canvas>
             <img id="backgroundImage" width="854" height="850" src="../../../images/mortensenlabbackground.jpg"/>
         </div>
@@ -129,8 +129,8 @@ courses: { versions: {week: 0} }
     window.addEventListener('load', function () {
         const canvas = document.getElementById('lopezContainer');
         const ctx = canvas.getContext('2d');
-        const SPRITE_WIDTH = 42.6;  // matches sprite pixel width
-        const SPRITE_HEIGHT = 49.3; // matches sprite pixel height
+        const SPRITE_WIDTH = 43.5;  // matches sprite pixel width
+        const SPRITE_HEIGHT = 50.25; // matches sprite pixel height
         const FRAME_LIMIT = 4;  // matches number of frames per sprite row, this code assume each row is same
         let LOPEZ_SPEED = 10;
         const SCALE_FACTOR = 2;  // control size of sprite on canvas
@@ -152,6 +152,7 @@ courses: { versions: {week: 0} }
                 this.frameY = 0;
                 this.left = START_LEFT;
                 this.top = START_TOP;
+                this.moveDown = false;
             }
 
             draw(context) {
@@ -184,17 +185,17 @@ courses: { versions: {week: 0} }
             "w": "up",
             "a": "left",
             "s": "down",
-            "d": "right",
-            "ArrowUp": "up",
-            "ArrowLeft": "left",
-            "ArrowDown": "down",
-            "ArrowRight": "right"
+            "d": "right"
 
         }
+
+        let currentKeys = []
 
         document.addEventListener("keydown", (event) => {
             const key = event.key
             if (!Object.keys(validKeys).includes(key)) return;
+
+            if (!currentKeys.includes(key)) currentKeys.push(key)
 
             const direction = validKeys[key];
 
@@ -202,12 +203,12 @@ courses: { versions: {week: 0} }
                 isMoving = true
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 animate()
+                console.log('animate')
             }
-
             switch (direction) {
                     case 'down':
                         lopez.frameY = 0;
-                        lopez.top += LOPEZ_SPEED;
+                        lopez.top += LOPEZ_SPEED
                         isMoving = true;
                         break;
                     case 'left':
@@ -228,18 +229,24 @@ courses: { versions: {week: 0} }
                     default:
                         break;
                 }
+                
         })
 
         document.addEventListener("keyup", (event) => {
             const key = event.key
+
             if (!Object.keys(validKeys).includes(key)) return;
-            if (isMoving) {
-                isMoving = false
+            isMoving = false
+            currentKeys = currentKeys.filter((currKey) => {
+                return currKey !== key
+            })
+
+            if (!currentKeys[0]) {
                 keydown = false
                 lopez.frameX = 2 //idle frame
 
                 if (lopez.frameY == 2) {
-                    lopez.frameX = 1 //idle frame for row 3
+                    lopez.frameX = 0 //idle frame for row 3
                 }
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height); //clear old frame
@@ -249,6 +256,7 @@ courses: { versions: {week: 0} }
         // Animation recursive control function
         function animate() {
             if (!isMoving) return;
+            isMoving = true;
             // Clears the canvas to remove the previous frame.
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
