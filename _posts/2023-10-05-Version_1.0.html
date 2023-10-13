@@ -172,50 +172,24 @@ courses: { versions: {week: 0} }
             setTimeout(() => {requestAnimationFrame(animate);}, 120);
         }
 
-const sprite = {
-  x: 100,
-  y: 100, 
-  width: 18.5, 
-  height: 25.8, 
-};
-
-// Create a hitbox for the sprite
-const hitbox = {
-  x: sprite.x, 
-  y: sprite.y, 
-  width: sprite.width, 
-  height: sprite.height,
-};
-
-// Function to check for collision between two hitboxes
-function isCollision(hitbox1, hitbox2) {
-  return (
-    hitbox1.x < hitbox2.x + hitbox2.width &&
-    hitbox1.x + hitbox1.width > hitbox2.x &&
-    hitbox1.y < hitbox2.y + hitbox2.height &&
-    hitbox1.y + hitbox1.height > hitbox2.y
-  );
-}
-
-// Example usage
-const otherObject = {
-  x: 100,
-  y: 100,
-  width: 18.5,
-  height: 25.8,
-};
-
-if (isCollision(hitbox, otherObject)) {
-  // Collision detected, handle it here
-  console.log("Collision detected!");
-}
+        class Player {
+        constructor() {
+            // Initial position and velocity of the player
+            this.position = {
+                x: 500,
+                y: 450
+            };
+            // Dimensions of the player
+            this.width = 18.5;
+            this.height = 25.3;
+        }}
 
 
 
         // run 1st animate
         animate();
 
-    })
+
 
     
 </script>
