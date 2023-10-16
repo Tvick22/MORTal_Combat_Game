@@ -172,18 +172,18 @@ courses: { versions: {week: 0} }
             setTimeout(() => {requestAnimationFrame(animate);}, 120);
         }
 
-        class Collision{
-            constructor(SPRITE_HEIGHT, SPRITE_WIDTH);
+    class Collision{
+            constructor(height, width);
             this.height = height;
             this.width = width;
         }
         class Mort extends Collision {
-            constructor(SPRITE_HEIGHT, SPRITE_WIDTH);
-            super(SPRITE_HEIGHT, SPRITE_WIDTH);
+            constructor(height, width);
+            super(height, height);
         }
-        var MortSPRITE_HEIGHT = "25.8"
-        var MortSPRITE_WIDTH = "18.5"
-        var Mort = new Mort(SPRITE_HEIGHT, SPRITE_WIDTH);
+        var MortHeight = "25.8"
+        var MortWidth = "18.5"
+        var Mort = new Mort(height, width);
         
         
 
