@@ -15,8 +15,8 @@ courses: { versions: {week: 0} }
 </head>
 
 <html>
-    <div class="gameWrapper">
-        <div class="frameWrapper">
+    <div id="gameWrapper" class="gameWrapper">
+        <div id="frameWrapper" class="frameWrapper">
             <div id="topMenu">
                 <button class="topMenuBtn" id="mainMenuBtn">Main Menu</button>
                 <button class="topMenuBtn" id="inventoryBtn">Inventory</button>
@@ -25,7 +25,7 @@ courses: { versions: {week: 0} }
             <canvas id="lopezContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
                 <img id="LopezSprite" src="../../../images/lopezspritesheet2.png">  // change sprite here
             </canvas>
-            <img id="backgroundImage" width="854" height="850" src="../../../images/mortensenlabbackground.jpg"/>
+            <img id="backgroundImage" width="768" height="700" src="../../../images/mortensenlabbackground.jpg"/>
         </div>
     </div>
 </html>
@@ -36,18 +36,25 @@ courses: { versions: {week: 0} }
     window.addEventListener('load', function () {
         const canvas = document.getElementById('lopezContainer');
         const ctx = canvas.getContext('2d');
+        const backgroundImage = document.getElementById("backgroundImage")
+
 
         const SPRITE_WIDTH = 43.5;  // matches sprite pixel width
         const SPRITE_HEIGHT = 50.25; // matches sprite pixel height
-        const SCALE_FACTOR = 2;  // control size of sprite on canvas
+        const SCALE_FACTOR = 1.7;  // control size of sprite on canvas
+
+        const LEFT_BOUND = (document.getElementsByClassName("wrapper")[0].offsetWidth-document.getElementById("backgroundImage").getAttribute("width"))/2;
+        const RIGHT_BOUND = Number(document.getElementById("backgroundImage").getAttribute("width")) + LEFT_BOUND - 65
+
+        const TOP_BOUND = (document.getElementsByClassName("wrapper")[0].offsetHeight - Number(document.getElementById("backgroundImage").getAttribute("height")))
+        const BOTTOM_BOUND = document.getElementsByClassName("wrapper")[0].offsetHeight - 85
 
         let LOPEZ_SPEED = 4;
         let ANIMATION_SPEED = 100
-
         const FRAME_LIMIT = 4;  // matches number of frames per sprite row, this code assume each row is same
 
-        const START_LEFT = 600;
-        const START_TOP = 600;
+        const START_LEFT = LEFT_BOUND + 200;
+        const START_TOP = TOP_BOUND + 200;
 
         let isMoving = false;
 
@@ -138,24 +145,22 @@ courses: { versions: {week: 0} }
             if (!currentKeys.length) {
                 isMoving = false
             }
-
-            console.log(lopez)
         })
 
         function moveLopez () {
-            if (currentKeys.includes("up") && isMoving) {
+            if (currentKeys.includes("up") && isMoving && lopez.top > TOP_BOUND+10) {
                 lopez.top += -LOPEZ_SPEED
                 canvas.style.top = lopez.top + "px"
             }
-            if (currentKeys.includes("down") && isMoving) {
+            if (currentKeys.includes("down") && isMoving && lopez.top < BOTTOM_BOUND-10) {
                 lopez.top += LOPEZ_SPEED
                 canvas.style.top = lopez.top + "px"
             }
-            if (currentKeys.includes("left") && isMoving) {
+            if (currentKeys.includes("left") && isMoving && lopez.left > LEFT_BOUND+10) {
                 lopez.left += -LOPEZ_SPEED
                 canvas.style.left = lopez.left + "px"
             }
-            if (currentKeys.includes("right") && isMoving) {
+            if (currentKeys.includes("right") && isMoving && lopez.left < RIGHT_BOUND-10) {
                 lopez.left += LOPEZ_SPEED
                 canvas.style.left = lopez.left + "px"
             }
@@ -211,7 +216,6 @@ courses: { versions: {week: 0} }
 <style>
     .frameWrapper {
         margin: auto;
-        width: 854px;
         border: 2px solid #00ADB5;
         text-align: center;
         margin-top: 1%;
