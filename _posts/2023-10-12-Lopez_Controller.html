@@ -23,7 +23,7 @@ courses: { versions: {week: 0} }
                 <button class="topMenuBtn" id="mapBtn">Map</button>
             </div>
             <canvas id="lopezContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
-                <img id="LopezSprite" src="../../../images/lopezspritesheet2.png">  // change sprite here
+                <img id="lopezSprite" src="../../../images/lopezspritesheet2.png">  // change sprite here
             </canvas>
             <img id="backgroundImage" width="768" height="700" src="../../../images/mortensenlabbackground.jpg"/>
         </div>
@@ -38,11 +38,6 @@ courses: { versions: {week: 0} }
         const ctx = canvas.getContext('2d');
         const backgroundImage = document.getElementById("backgroundImage")
 
-
-        const SPRITE_WIDTH = 43.5;  // matches sprite pixel width
-        const SPRITE_HEIGHT = 50.25; // matches sprite pixel height
-        const SCALE_FACTOR = 1.7;  // control size of sprite on canvas
-
         const LEFT_BOUND = (document.getElementsByClassName("wrapper")[0].offsetWidth-document.getElementById("backgroundImage").getAttribute("width"))/2;
         const RIGHT_BOUND = Number(document.getElementById("backgroundImage").getAttribute("width")) + LEFT_BOUND - 65
 
@@ -52,6 +47,9 @@ courses: { versions: {week: 0} }
         let LOPEZ_SPEED = 4;
         let ANIMATION_SPEED = 100
         const FRAME_LIMIT = 4;  // matches number of frames per sprite row, this code assume each row is same
+        const SPRITE_WIDTH = 43.5;  // matches sprite pixel width
+        const SPRITE_HEIGHT = 50.25; // matches sprite pixel height
+        const SCALE_FACTOR = 1.7;  // control size of sprite on canvas
 
         const START_X = 200
         const START_Y = 200
@@ -70,7 +68,7 @@ courses: { versions: {week: 0} }
 
         class Lopez {
             constructor() {
-                this.image = document.getElementById("LopezSprite");
+                this.image = document.getElementById("lopezSprite");
                 this.x = START_X;
                 this.y = START_Y;
                 this.minFrame = 0;
@@ -126,42 +124,42 @@ courses: { versions: {week: 0} }
         
         document.addEventListener("keydown", (event) => {
             const key = event.key;
+            const validKey = validKeys[key]
 
-            if (!Object.keys(validKeys).includes(key)) return;
+            if (validKey === undefined) {
+                return;
+            };
 
-            if (!currentKeys.includes(key)) {
-                currentKeys.push(validKeys[key]) //add to currentKeys
+            if (!currentKeys.includes(validKey)) {
+                currentKeys.push(validKey) //add to currentKeys
             } 
 
-            if (currentKeys.length) {
-                isMoving = true
-            }
-
-            
+            isMoving = true;
         })
 
         document.addEventListener("keyup", (event) => {
             const key = event.key;
+            const validKey = validKeys[key]
 
             if (key == "e") {
-                console.log(`(${lopez.x},${lopez.y})`)
-                debugger
+                console.log(`(${lopez.x},${lopez.y})`);
+                debugger;
             };
 
-            if (!Object.keys(validKeys).includes(key)) return;
+            if (validKey === undefined) {
+                return;
+            };
 
             currentKeys = currentKeys.filter((currKey) => {
-                    return currKey !== validKeys[key]  //remove from currentKeys 
+                    return currKey !== validKey;  //remove from currentKeys 
             }) 
 
-            if (!currentKeys.length) {
-                isMoving = false
-            }
+            isMoving = !!currentKeys.length
         })
 
         function moveLopez () {
             if (currentKeys.includes("up") && isMoving && lopez.top > TOP_BOUND + 10) {
-                lopez.top += -LOPEZ_SPEED
+                lopez.top -= LOPEZ_SPEED
                 canvas.style.top = lopez.top + "px"
                 lopez.y = getYCoordinate(lopez.top)
             }
@@ -171,7 +169,7 @@ courses: { versions: {week: 0} }
                 lopez.y = getYCoordinate(lopez.top)
             }
             if (currentKeys.includes("left") && isMoving && lopez.left > LEFT_BOUND + 10) {
-                lopez.left += -LOPEZ_SPEED
+                lopez.left -= LOPEZ_SPEED
                 canvas.style.left = lopez.left + "px"
                 lopez.x = getXCoordinate(lopez.left)
             }
@@ -181,7 +179,9 @@ courses: { versions: {week: 0} }
                 lopez.x = getXCoordinate(lopez.left)
             }
 
-            if (currentKeys.length) lopez.currentDirection = currentKeys[0];
+            if (isMoving) {
+                lopez.currentDirection = currentKeys[currentKeys.length-1];
+            }
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -220,12 +220,8 @@ courses: { versions: {week: 0} }
             setTimeout(() => {requestAnimationFrame(animate);}, ANIMATION_SPEED);
         }
 
-        function controllerLoop () {
-            moveLopez()
-        }
-
         animate()
-        controllerLoop()
+        moveLopez()
     });
 </script>
 
