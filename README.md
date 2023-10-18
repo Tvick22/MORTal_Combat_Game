@@ -32,6 +32,8 @@ bundle install
 ```
 - Run Server.  This requires running terminal commands `make`, `make stop`, `make clean`, or `make convert` to manage the running server.  Logging of details will appear in terminal.   A `Makefile` has been created in project to support commands and start processes.
 
+    - To run on a **chromebook**, use `make chrome` instead of `make`.
+
     - Start preview server in terminal
     ```bash
     cd ~/vscode/teacher  # my project location, adapt as necessary

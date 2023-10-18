@@ -61,6 +61,12 @@ server: stop convert
 		echo "Server PID: $$PID"
 	@@until [ -f $(LOG_FILE) ]; do sleep 1; done
 
+serverChrome: stop convertChrome
+	@echo "Starting server..."
+	@@nohup bundle exec jekyll serve -H 127.0.0.1 -P $(PORT) > $(LOG_FILE) 2>&1 & \
+		PID=$$!; \
+		echo "Server PID: $$PID"
+	@@until [ -f $(LOG_FILE) ]; do sleep 1; done
 
 # Convert .ipynb files to Markdown with front matter
 convert: $(MARKDOWN_FILES)
@@ -69,6 +75,13 @@ convert: $(MARKDOWN_FILES)
 $(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/%.ipynb
 	@echo "Converting source $< to destination $@"
 	@python3 -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
+
+convertChrome: $(MARKDOWN_FILES)
+
+	$(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/%.ipynb
+	@echo "Converting source $< to destination $@"
+	@python -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
+
 
 # Clean up project derived files, to avoid run issues stop is dependency
 clean: stop
@@ -87,3 +100,35 @@ stop:
 	@@ps aux | awk -v log_file=$(LOG_FILE) '$$0 ~ "tail -f " log_file { print $$2 }' | xargs kill >/dev/null 2>&1 || true
 	@# removes log
 	@rm -f $(LOG_FILE)
+
+# For Chromebook
+chrome: serverChrome
+	@echo "Terminal logging starting, watching server..."
+	@# tail and awk work together to extract Jekyll regeneration messages
+	@# When a _notebook is detected in the log, call make convert in the background
+	@# Note: We use the "if ($$0 ~ /_notebooks\/.*\.ipynb/) { system(\"make convert &\") }" to call make convert
+	@(tail -f $(LOG_FILE) | awk '/Server address: http:\/\/127.0.0.1:$(PORT)\/$(REPO_NAME)\// { serverReady=1 } \
+	serverReady && /^ *Regenerating:/ { regenerate=1 } \
+	regenerate { \
+		if (/^[[:blank:]]*$$/) { regenerate=0 } \
+		else { \
+			print; \
+			if ($$0 ~ /_notebooks\/.*\.ipynb/) { system("make convert &") } \
+		} \
+	}') 2>/dev/null &
+	@# start an infinite loop with timeout to check log status
+	@for ((COUNTER = 0; ; COUNTER++)); do \
+		if grep -q "Server address:" $(LOG_FILE); then \
+			echo "Server started in $$COUNTER seconds"; \
+			break; \
+		fi; \
+		if [ $$COUNTER -eq 60 ]; then \
+			echo "Server timed out after $$COUNTER seconds."; \
+			echo "Review errors from $(LOG_FILE)."; \
+			cat $(LOG_FILE); \
+			exit 1; \
+		fi; \
+		sleep 1; \
+	done
+	@# outputs startup log, removes last line ($$d) as ctl-c message is not applicable for background process
+	@sed '$$d' $(LOG_FILE)

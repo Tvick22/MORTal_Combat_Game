@@ -53,26 +53,32 @@ courses: { versions: {week: 0} }
         let ANIMATION_SPEED = 100
         const FRAME_LIMIT = 4;  // matches number of frames per sprite row, this code assume each row is same
 
-        const START_LEFT = LEFT_BOUND + 200;
-        const START_TOP = TOP_BOUND + 200;
+        const START_X = 200
+        const START_Y = 200
 
         let isMoving = false;
 
         canvas.width = SPRITE_WIDTH * SCALE_FACTOR;
         canvas.height = SPRITE_HEIGHT * SCALE_FACTOR;
 
+        function getXCoordinate(left) {
+            return left - LEFT_BOUND
+        }
+        function getYCoordinate(top) {
+            return BOTTOM_BOUND - top +1
+        }
 
         class Lopez {
             constructor() {
                 this.image = document.getElementById("LopezSprite");
-                this.x = 0;
-                this.y = 0;
+                this.x = START_X;
+                this.y = START_Y;
                 this.minFrame = 0;
                 this.maxFrame = FRAME_LIMIT -1;
                 this.frameX = 0;
                 this.frameY = 0;
-                this.left = START_LEFT;
-                this.top = START_TOP;
+                this.left = START_X + LEFT_BOUND;
+                this.top = BOTTOM_BOUND - START_Y +1;
                 this.currentDirection = 'left'; 
             }
 
@@ -83,8 +89,8 @@ courses: { versions: {week: 0} }
                     this.frameY * SPRITE_HEIGHT,
                     SPRITE_WIDTH,
                     SPRITE_HEIGHT,
-                    this.x,
-                    this.y,
+                    0,
+                    0,
                     canvas.width,
                     canvas.height
                 );
@@ -136,6 +142,12 @@ courses: { versions: {week: 0} }
 
         document.addEventListener("keyup", (event) => {
             const key = event.key;
+
+            if (key == "e") {
+                console.log(`(${lopez.x},${lopez.y})`)
+                debugger
+            };
+
             if (!Object.keys(validKeys).includes(key)) return;
 
             currentKeys = currentKeys.filter((currKey) => {
@@ -148,21 +160,25 @@ courses: { versions: {week: 0} }
         })
 
         function moveLopez () {
-            if (currentKeys.includes("up") && isMoving && lopez.top > TOP_BOUND+10) {
+            if (currentKeys.includes("up") && isMoving && lopez.top > TOP_BOUND + 10) {
                 lopez.top += -LOPEZ_SPEED
                 canvas.style.top = lopez.top + "px"
+                lopez.y = getYCoordinate(lopez.top)
             }
-            if (currentKeys.includes("down") && isMoving && lopez.top < BOTTOM_BOUND-10) {
+            if (currentKeys.includes("down") && isMoving && lopez.top < BOTTOM_BOUND - 10) {
                 lopez.top += LOPEZ_SPEED
                 canvas.style.top = lopez.top + "px"
+                lopez.y = getYCoordinate(lopez.top)
             }
-            if (currentKeys.includes("left") && isMoving && lopez.left > LEFT_BOUND+10) {
+            if (currentKeys.includes("left") && isMoving && lopez.left > LEFT_BOUND + 10) {
                 lopez.left += -LOPEZ_SPEED
                 canvas.style.left = lopez.left + "px"
+                lopez.x = getXCoordinate(lopez.left)
             }
-            if (currentKeys.includes("right") && isMoving && lopez.left < RIGHT_BOUND-10) {
+            if (currentKeys.includes("right") && isMoving && lopez.left < RIGHT_BOUND - 10) {
                 lopez.left += LOPEZ_SPEED
                 canvas.style.left = lopez.left + "px"
+                lopez.x = getXCoordinate(lopez.left)
             }
 
             if (currentKeys.length) lopez.currentDirection = currentKeys[0];
