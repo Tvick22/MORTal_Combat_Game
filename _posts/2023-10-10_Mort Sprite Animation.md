@@ -116,6 +116,28 @@ courses: {versions: {week: 0}}
         // run 1st animate
         animate();
     });
+
+<!DOCTYPE html>
+<html>
+<body>
+    <div id="npc-textbox">
+        <p id="npc-dialogue">NPC: Hello, pokemort trainer</p>
+    </div>
+</body>
+</html>
+
+
+const npcDialogue = document.getElementById("npc-dialogue");
+
+
+function updateNPCDialogue(newText) {
+    npcDialogue.innerText = "NPC: " + newText;
+}
+
+
+updateNPCDialogue("Hello there! I have a quest for you.");
+
+
 </script>
 
 # Notes
