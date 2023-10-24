@@ -36,7 +36,7 @@ bundle install
 
     - Start preview server in terminal
     ```bash
-    cd ~/vscode/teacher  # my project location, adapt as necessary
+    cd ~/vscode/MORTal_Combat_Game  # my project location, adapt as necessary
     make
     ```
 
@@ -51,7 +51,7 @@ bundle install
         _notebooks/2024-01-04-cockpit-setup.ipynb
     ```
 
-    - Terminal message are generated from background processes.  Click return or enter to obtain prompt and use terminal as needed for other tasks.  Alway return to root of project `cd ~/vscode/teacher` for all "make" actions. 
+    - Terminal message are generated from background processes.  Click return or enter to obtain prompt and use terminal as needed for other tasks.  Alway return to root of project `cd ~/vscode/MORTal_Combat_Game` for all "make" actions. 
         
 
     - Stop preview server, but leave constructed files in project for your review.
@@ -81,13 +81,11 @@ bundle install
 
     ```yaml
     ---
-    toc: true
-    comments: false
     layout: post
     title: Daily Plan Sample
     description: Example Blog!!!  This shows planning and notes from hacks.
     type: plans
-    courses: { compsci: {week: 0} }
+    courses: { versions: {week: 0} }
     ---
     ```
 
@@ -95,14 +93,23 @@ bundle install
 
 - Here we can modify things like the title and description.
 
-- The type value will tells us which column this is going to appear under, supported values: `plans`, `hacks`, `tangibles`.
+- The type value will tells us which column this is going to appear under, supported values: `plans`, `game`
 
-- The courses tells us which menu item it will be under, in this case the `compsci` menu, and the `week` tells it what row (week) it will appear under that menu.
+- The courses tells us which menu item it will be under, in this case the `versions` menu, and the `week` tells it what row (week) it will appear under that menu.
 
 - In our examples,  hacks(ToDo) contains references to our IPYNB files; these are stored in GitHub under the `_notebooks` folder.   The plans and tangibles contains references to our MD files; these are stored in GitHub under the `_posts` folder.
 
 - Key files in Computer Science Lab Notebook
-    - `compsci.md` - this is the "Computer Science Lab Notebook" page and is the link `https://nighthawkcoders.github.io/student/compsci`.  It contains the Title and Number of units on the page.
-    - `_data/compsci.yml` - this contains the supporting data that helps organize the units on the page.
-    - `_layouts`\schedule.html - this contains code, in the Liquid language, that generates the HTML for all the rows and columns.
-    - fyi, the schedule.html could work for another type of page.  For instance, you could make a csa.md, _data/csa.yml, and tag files with `csa: {week: 0}` under courses.
+    - `timeBox.md` - this is our time box that contains all iterations of the game, plans, and notebooks for our code and the link is `https://tvick22.github.io/MORTal_Combat_Game/timeBox`.  
+    - `_data/versions.yml` - this contains the supporting data that helps organize the units on the page.
+
+### Plans
+- The plans tab includes our initial vision for the game and how we planned to execute it
+- Plans outlines our change it though process over time as we ultiamtely arrived to where we are at today
+
+### Playing Our Game
+- The final version of our game: Pokemort, will be included on the index.md
+    - Users can use the wasd keys to move their character around the screen and follow any on-screen prompts for starting the game or character interactions
+- Any previous iterations of the game or code that we used in development will be in the time box tab
+- All review tickets and weekly plans will also be included in the time box
+- We hope you enjoy!
