@@ -21,6 +21,5 @@ function checkCollision(x, y, hitboxWidth, hitboxHeight) {
                 return true;
             }
             return false;
-
         }
  ```
