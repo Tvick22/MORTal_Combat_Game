@@ -96,8 +96,8 @@ window.addEventListener('load', function () {
     static observedAttributes = ["width", "height", "x", "y"]
     constructor() {
         super()
-        if (!this.getAttribute("width") || !this.getAttribute("height") || !this.getAttribute("x") || !this.getAttribute("y")) {
-            throw new Error("Needs required attributes (height, width, x, and y)")
+        if (!this.getAttribute("width") || !this.getAttribute("height") || !this.getAttribute("x") || !this.getAttribute("y") || !this.getAttribute("backgroundId")) {
+            throw new Error("Needs required attributes (height, width, x, y, and background)")
         }
         this.height = this.getAttribute("height")
         this.width = this.getAttribute("width")
@@ -106,6 +106,8 @@ window.addEventListener('load', function () {
         this.style.backgroundColor = 'red'
         this.xVals = this.getOutlineAxis().x
         this.yVals = this.getOutlineAxis().y
+        this.active = false
+        this.background = document.getElementById(this.getAttribute("backgroundId"))
     }
     getOutlineAxis() {
         const x = Number(this.x);
@@ -329,6 +331,14 @@ customElements.define("hit-box", HitBox, { extends: "div" });
                 setTimeout(() => {
                     backgroundImage.image = document.getElementById(zone.newBackground)
                     isLoading = false
+                    hitBoxes.forEach((hitbox) => {
+                        if (hitbox.background == backgroundImage.image) {
+                            hitbox.active = true
+                        }
+                        else {
+                            hitbox.active = false
+                        }
+                    })
                 }, 1000)
                 zone.isActive = false
             }
@@ -353,6 +363,10 @@ customElements.define("hit-box", HitBox, { extends: "div" });
 
         hitBoxes.forEach((hitbox) => {
             const hitboxDirections = hitbox.getNonCollidingDirections(lopez.getOutlineAxis());
+
+            if (hitbox.active == false) {
+                return;
+            }
 
             if (hitboxDirections.left == false) {
                 allPossibleDirections.left = false
@@ -444,6 +458,12 @@ customElements.define("hit-box", HitBox, { extends: "div" });
 
         setTimeout(() => {requestAnimationFrame(animate);}, ANIMATION_SPEED);
     }
+
+    document.querySelectorAll("div[is='hit-box']").forEach((hitbox) => {
+        if (hitbox.background == backgroundImage.image) {
+            hitbox.active = true;
+        }
+    })
 
     animate()
     moveLopez()
