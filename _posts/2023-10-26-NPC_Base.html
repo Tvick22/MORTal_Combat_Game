@@ -1,0 +1,45 @@
+---
+layout: post
+title: NPC Base Code
+description: Testing for NPCs
+type: game
+courses: { versions: {week: 2} }
+---
+
+<head>
+    <style>
+        #MortTextbox {
+            position: relative;
+        }
+
+        #dialogueText {
+            position: absolute;
+            top: 430px; /* Adjust the top position as needed */
+            left: 160px; /* Adjust the left position as needed */
+            color: black; /* Set the text color to black */
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleDialogue() {
+            var textbox = document.getElementById("MortTextbox");
+            var text = document.getElementById("dialogueText");
+
+            if (textbox.style.display === "none") {
+                textbox.style.display = "block";
+                setTimeout(function () {
+                    text.style.display = "block";
+                }, 100); // Show text after 0.1 seconds
+            } else {
+                textbox.style.display = "none";
+                text.style.display = "none";
+            }
+        }
+    </script>
+</head>
+
+<div>
+    <button onclick="toggleDialogue()">Start Dialogue</button>
+    <img id="MortTextbox" src="{{ site.baseurl }}/images/morttextbox.png" alt="Mort Textbox" style="display: none; width: 300px; height: 200px">
+    <div id="dialogueText">Your text goes here.</div>
+</div>
