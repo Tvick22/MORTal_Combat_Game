@@ -4,7 +4,7 @@ REPO_NAME ?= student
 LOG_FILE = /tmp/jekyll$(PORT).log
 # Exceptions will stop make
 SHELL = /bin/bash
-.SHELLFLAGS = -e
+# .SHELLFLAGS = -e
 
 # Phony Targets, makefile housekeeping for below definitions
 .PHONY: default server convert clean stop
@@ -25,7 +25,7 @@ default: server
 	@# tail and awk work together to extract Jekyll regeneration messages
 	@# When a _notebook is detected in the log, call make convert in the background
 	@# Note: We use the "if ($$0 ~ /_notebooks\/.*\.ipynb/) { system(\"make convert &\") }" to call make convert
-	@(tail -f $(LOG_FILE) | awk '/Server address: http:\/\/0.0.0.0:$(PORT)\/$(REPO_NAME)\// { serverReady=1 } \
+	@(tail -f $(LOG_FILE) | awk '/Server address: http:\/\/127.0.0.1:$(PORT)\/$(REPO_NAME)\// { serverReady=1 } \
 	serverReady && /^ *Regenerating:/ { regenerate=1 } \
 	regenerate { \
 		if (/^[[:blank:]]*$$/) { regenerate=0 } \
@@ -56,7 +56,7 @@ default: server
 # Start the local web server
 server: stop convert
 	@echo "Starting server..."
-	@@nohup bundle exec jekyll serve -H 0.0.0.0 -P $(PORT) > $(LOG_FILE) 2>&1 & \
+	@@nohup bundle exec jekyll serve -H 127.0.0.1 -P $(PORT) > $(LOG_FILE) 2>&1 & \
 		PID=$$!; \
 		echo "Server PID: $$PID"
 	@@until [ -f $(LOG_FILE) ]; do sleep 1; done
@@ -68,7 +68,7 @@ convert: $(MARKDOWN_FILES)
 # Convert .md file, if .ipynb file is newer
 $(DESTINATION_DIRECTORY)/%_IPYNB_2_.md: _notebooks/%.ipynb
 	@echo "Converting source $< to destination $@"
-	@python3 -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
+	@python -c 'import sys; from scripts.convert_notebooks import convert_single_notebook; convert_single_notebook(sys.argv[1])' "$<"
 
 # Clean up project derived files, to avoid run issues stop is dependency
 clean: stop
