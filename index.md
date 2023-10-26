@@ -3,4 +3,9 @@ layout: default
 title: Pre Game Screen
 ---
 
-## MORTal Combat
+## Pokemort
+
+## Realest Ones Out There Studios Presents:
+
+<img src="images/titlescreen.png" alt="Title Screen">
+
