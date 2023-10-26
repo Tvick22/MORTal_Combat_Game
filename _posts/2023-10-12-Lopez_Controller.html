@@ -1,0 +1,277 @@
+---
+layout: post
+title: Lopez Controls
+description: Initial Version
+type: game
+courses: { versions: {week: 0} }
+---
+
+<head>
+    <meta name="layout" content="post">
+    <meta name="title" content="Version 1.0">
+    <meta name="description" content="Initial Version">
+    <meta name="type" content="game">
+    <meta name="courses" content="{ versions: {week: 0} }">
+</head>
+
+<html>
+    <div id="gameWrapper" class="gameWrapper">
+        <div id="frameWrapper" class="frameWrapper">
+            <div id="topMenu">
+                <button class="topMenuBtn" id="mainMenuBtn">Main Menu</button>
+                <button class="topMenuBtn" id="inventoryBtn">Inventory</button>
+                <button class="topMenuBtn" id="mapBtn">Map</button>
+            </div>
+            <canvas id="lopezContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
+                <img id="lopezSprite" src="../../../images/lopezspritesheet2.png">  // change sprite here
+            </canvas>
+            <img id="backgroundImage" width="768" height="700" src="../../../images/mortensenlabbackground.jpg"/>
+        </div>
+    </div>
+</html>
+
+<script>
+    // start on page load
+
+    window.addEventListener('load', function () {
+        const canvas = document.getElementById('lopezContainer');
+        const ctx = canvas.getContext('2d');
+        const backgroundImage = document.getElementById("backgroundImage")
+
+        const LEFT_BOUND = (document.getElementsByClassName("wrapper")[0].offsetWidth-document.getElementById("backgroundImage").getAttribute("width"))/2;
+        const RIGHT_BOUND = Number(document.getElementById("backgroundImage").getAttribute("width")) + LEFT_BOUND - 65
+
+        const TOP_BOUND = (document.getElementsByClassName("wrapper")[0].offsetHeight - Number(document.getElementById("backgroundImage").getAttribute("height")))
+        const BOTTOM_BOUND = document.getElementsByClassName("wrapper")[0].offsetHeight - 85
+
+        let LOPEZ_SPEED = 4;
+        let ANIMATION_SPEED = 100
+        const FRAME_LIMIT = 4;  // matches number of frames per sprite row, this code assume each row is same
+        const SPRITE_WIDTH = 43.5;  // matches sprite pixel width
+        const SPRITE_HEIGHT = 50.25; // matches sprite pixel height
+        const SCALE_FACTOR = 1.7;  // control size of sprite on canvas
+
+        const START_X = 200
+        const START_Y = 200
+
+        let isMoving = false;
+
+        canvas.width = SPRITE_WIDTH * SCALE_FACTOR;
+        canvas.height = SPRITE_HEIGHT * SCALE_FACTOR;
+
+        function getXCoordinate(left) {
+            return left - LEFT_BOUND
+        }
+        function getYCoordinate(top) {
+            return BOTTOM_BOUND - top +1
+        }
+
+        class Lopez {
+            constructor() {
+                this.image = document.getElementById("lopezSprite");
+                this.x = START_X;
+                this.y = START_Y;
+                this.minFrame = 0;
+                this.maxFrame = FRAME_LIMIT -1;
+                this.frameX = 0;
+                this.frameY = 0;
+                this.left = START_X + LEFT_BOUND;
+                this.top = BOTTOM_BOUND - START_Y +1;
+                this.currentDirection = 'left'; 
+            }
+
+            draw(context) {
+                context.drawImage(
+                    this.image,
+                    this.frameX * SPRITE_WIDTH,
+                    this.frameY * SPRITE_HEIGHT,
+                    SPRITE_WIDTH,
+                    SPRITE_HEIGHT,
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+                canvas.style.left = lopez.left + "px"
+                canvas.style.top = lopez.top + "px"
+            }
+
+            // update frameX of object
+            updateFrame() {
+                if (this.frameX < this.maxFrame) {
+                    this.frameX++;
+                } else {
+                    this.frameX = 0;
+                }
+            }
+        }
+
+        const lopez = new Lopez();
+    
+        const validKeys = {
+            "w": "up",
+            "a": "left",
+            "s": "down",
+            "d": "right"
+
+        }
+
+        let currentKeys = []
+
+
+        lopez.draw(ctx)
+        
+        document.addEventListener("keydown", (event) => {
+            const key = event.key;
+            const validKey = validKeys[key]
+
+            if (validKey === undefined) {
+                return;
+            };
+
+            if (!currentKeys.includes(validKey)) {
+                currentKeys.push(validKey) //add to currentKeys
+            } 
+
+            isMoving = true;
+        })
+
+        document.addEventListener("keyup", (event) => {
+            const key = event.key;
+            const validKey = validKeys[key]
+
+            if (key == "e") {
+                console.log(`(${lopez.x},${lopez.y})`);
+                debugger;
+            };
+
+            if (validKey === undefined) {
+                return;
+            };
+
+            currentKeys = currentKeys.filter((currKey) => {
+                    return currKey !== validKey;  //remove from currentKeys 
+            }) 
+
+            isMoving = !!currentKeys.length
+        })
+
+        function moveLopez () {
+            if (currentKeys.includes("up") && isMoving && lopez.top > TOP_BOUND + 10) {
+                lopez.top -= LOPEZ_SPEED
+                canvas.style.top = lopez.top + "px"
+                lopez.y = getYCoordinate(lopez.top)
+            }
+            if (currentKeys.includes("down") && isMoving && lopez.top < BOTTOM_BOUND - 10) {
+                lopez.top += LOPEZ_SPEED
+                canvas.style.top = lopez.top + "px"
+                lopez.y = getYCoordinate(lopez.top)
+            }
+            if (currentKeys.includes("left") && isMoving && lopez.left > LEFT_BOUND + 10) {
+                lopez.left -= LOPEZ_SPEED
+                canvas.style.left = lopez.left + "px"
+                lopez.x = getXCoordinate(lopez.left)
+            }
+            if (currentKeys.includes("right") && isMoving && lopez.left < RIGHT_BOUND - 10) {
+                lopez.left += LOPEZ_SPEED
+                canvas.style.left = lopez.left + "px"
+                lopez.x = getXCoordinate(lopez.left)
+            }
+
+            if (isMoving) {
+                lopez.currentDirection = currentKeys[currentKeys.length-1];
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draws the current frame of the sprite.
+            lopez.draw(ctx);
+
+            setTimeout(() => {requestAnimationFrame(moveLopez);}, LOPEZ_SPEED)
+        }
+
+        function animate() {
+            switch (lopez.currentDirection) {
+                case "up": 
+                    lopez.frameY = 3;
+                    break;
+                case "left":
+                    lopez.frameY = 1;
+                    break;
+                case "right":
+                    lopez.frameY = 2;
+                    break;
+                case "down":
+                    lopez.frameY = 0;
+                    break;
+                default: 
+                    break;
+            }
+
+            if (isMoving) {
+                lopez.updateFrame();
+            }
+
+            if (!isMoving) {
+                lopez.frameX = 0;
+            }
+
+            setTimeout(() => {requestAnimationFrame(animate);}, ANIMATION_SPEED);
+        }
+
+        animate()
+        moveLopez()
+    });
+</script>
+
+<style>
+    .frameWrapper {
+        margin: auto;
+        border: 2px solid #00ADB5;
+        text-align: center;
+        margin-top: 1%;
+    }
+    
+    .topMenuBtn {
+        border: 0px;
+        background-color: #393E46;
+        padding: 15px;
+    }
+
+    .topMenuBtn:hover {
+        border: 0px;
+        background-color: #393e469f;
+        padding: 15px;
+    }
+
+    #gameWrapper {
+        display: flex; 
+        justify-content: center;
+    }
+
+    #topMenu {
+        display: flex;
+        gap: 10px;
+        background-color: #393e465c;
+        justify-content: space-evenly;
+        align-content: center;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    #gameFrame {
+        background-color: #fff;
+        border-top: 2px solid #00ADB5;
+    }
+
+    #mortContainer {
+        position: absolute;
+        left: 500px;
+        top: 500px;
+    }
+
+    #lopezContainer {
+        position: absolute;
+    }
+</style>

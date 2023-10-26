@@ -1,0 +1,20 @@
+<div class="boxWrapper">
+    <div>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        <p class="post-meta">{{ post.date | date: date_format }}</p>
+        <p class="post-meta-description">{{ post.description }}</p>
+      </div>
+</div>
+
+<style>
+    .boxWrapper {
+        padding: 10px;
+        background-color: #393E46   ;
+        border-bottom: 2px solid #00ADB5;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    }
+</style>
