@@ -312,15 +312,24 @@ customElements.define("hit-box", HitBox, { extends: "div" });
         isMoving = !!currentKeys.length
     })
 
+    let isLoading = false
+
     function getAllCollisionsmovableDirections () {
         let hitBoxes = document.querySelectorAll("div[is='hit-box']")
         let colliderZones = document.querySelectorAll("div[is='collider-zone']")
+
 
         colliderZones.forEach((zone) => {
             if (zone.isActive && zone.isColliding(lopez.getOutlineAxis())) {
                 lopez.x = Number(zone.newX)
                 lopez.y = Number(zone.newY)
-                backgroundImage.image = document.getElementById(zone.newBackground)
+                isLoading = true
+                isMoving = false
+                backgroundImage.image = document.getElementById("loadingScreen")
+                setTimeout(() => {
+                    backgroundImage.image = document.getElementById(zone.newBackground)
+                    isLoading = false
+                }, 1000)
                 zone.isActive = false
             }
             if (backgroundImage.image === document.getElementById('housefloor1')) {
@@ -365,16 +374,16 @@ customElements.define("hit-box", HitBox, { extends: "div" });
     function moveLopez () {
         const movableDirections = getAllCollisionsmovableDirections()
 
-        if (currentKeys.includes("up") && isMoving && lopez.y > 0 && movableDirections.up) {
+        if (currentKeys.includes("up") && isMoving && lopez.y > 0 && movableDirections.up && !isLoading) {
             lopez.y -= LOPEZ_SPEED
         }
-        if (currentKeys.includes("down") && isMoving && lopez.y < gameFrame.height-(SCALE_FACTOR*SPRITE_HEIGHT) && movableDirections.down) {
+        if (currentKeys.includes("down") && isMoving && lopez.y < gameFrame.height-(SCALE_FACTOR*SPRITE_HEIGHT) && movableDirections.down && !isLoading) {
             lopez.y += LOPEZ_SPEED
         }
-        if (currentKeys.includes("left") && isMoving && lopez.x > 0 && movableDirections.left) {
+        if (currentKeys.includes("left") && isMoving && lopez.x > 0 && movableDirections.left && !isLoading) {
             lopez.x -= LOPEZ_SPEED
         }
-        if (currentKeys.includes("right") && isMoving && lopez.x < gameFrame.width-(SCALE_FACTOR*SPRITE_WIDTH) && movableDirections.right) {
+        if (currentKeys.includes("right") && isMoving && lopez.x < gameFrame.width-(SCALE_FACTOR*SPRITE_WIDTH) && movableDirections.right && !isLoading) {
             lopez.x += LOPEZ_SPEED
         }
 
@@ -387,7 +396,9 @@ customElements.define("hit-box", HitBox, { extends: "div" });
         // Draws Background
         backgroundImage.draw(ctx)
         // Draws the current frame of the sprite.
-        lopez.draw(ctx);
+        if (!isLoading) {
+            lopez.draw(ctx);
+        }
 
         if (showBoxes) {
             document.querySelectorAll("div[is='hit-box']").forEach((hitbox) => {
@@ -424,6 +435,10 @@ customElements.define("hit-box", HitBox, { extends: "div" });
         }
 
         if (!isMoving) {
+            lopez.frameX = 0;
+        }
+
+        if (isLoading) {
             lopez.frameX = 0;
         }
 
