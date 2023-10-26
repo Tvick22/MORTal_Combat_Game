@@ -2,6 +2,8 @@ window.addEventListener('load', function () {
     const gameFrame = document.getElementById('gameContainer');
     const ctx = gameFrame.getContext('2d');
 
+    const showBoxes = false;
+
     const firstBackgroundImage = document.getElementById("housefloor2")
     const BACKGROUND_HEIGHT = 700
     const BACKGROUND_WIDTH = 800
@@ -13,8 +15,8 @@ window.addEventListener('load', function () {
     const SPRITE_HEIGHT = 52.5; // matches sprite pixel height
     const SCALE_FACTOR = 1.7;  // control size of sprite on canvas
 
-    const START_X = 0
-    const START_Y = 0
+    const START_X = 200
+    const START_Y = 300
 
     let isMoving = false;
 
@@ -184,8 +186,8 @@ class ColliderZone extends HTMLDivElement {
     static observedAttributes = ["width", "height", "x", "y"]
     constructor() {
         super()
-        if (!this.getAttribute("width") || !this.getAttribute("height") || !this.getAttribute("x") || !this.getAttribute("y") || !this.getAttribute("newBackground")) {
-            throw new Error("Needs required attributes (height, width, x, and y)")
+        if (!this.getAttribute("width") || !this.getAttribute("height") || !this.getAttribute("x") || !this.getAttribute("y") || !this.getAttribute("newBackground") || !this.getAttribute("newX") || !this.getAttribute("newY")) {
+            throw new Error("Needs required attributes (height, width, x, y, newX, and newY)")
         }
         this.height = this.getAttribute("height")
         this.width = this.getAttribute("width")
@@ -195,14 +197,13 @@ class ColliderZone extends HTMLDivElement {
         this.style.backgroundColor = 'red'
         this.xVals = this.getOutlineAxis().x
         this.yVals = this.getOutlineAxis().y
+        this.newX = this.getAttribute("newX")
+        this.newY = this.getAttribute("newY")
+        this.isActive = false;
     }
     getOutlineAxis() {
         const x = Number(this.x);
             const y = Number(this.y);
-
-            function makeCoordPair(x, y) {
-                return {'x': x, 'y': y}
-            }
 
             const xVals = [...Array(Math.floor(this.width)+1).keys()].map((number) => {
                 return x+number 
@@ -217,6 +218,10 @@ class ColliderZone extends HTMLDivElement {
         const playerXVals = coordValues.x
         const playerYVals = coordValues.y
 
+
+        if (!this.isActive) {
+            return false;
+        }
 
         const possibleXVals = playerXVals.filter((xVal) => {
             if (this.xVals.includes(xVal)) {
@@ -312,10 +317,21 @@ customElements.define("hit-box", HitBox, { extends: "div" });
         let colliderZones = document.querySelectorAll("div[is='collider-zone']")
 
         colliderZones.forEach((zone) => {
-            if (zone.isColliding(lopez.getOutlineAxis())) {
-                console.log('hello')
+            if (zone.isActive && zone.isColliding(lopez.getOutlineAxis())) {
+                lopez.x = Number(zone.newX)
+                lopez.y = Number(zone.newY)
                 backgroundImage.image = document.getElementById(zone.newBackground)
-
+                zone.isActive = false
+            }
+            if (backgroundImage.image === document.getElementById('housefloor1')) {
+                if (zone.id === "upStairsCarpet") {
+                    zone.isActive = true;
+                }
+            }
+            if (backgroundImage.image === document.getElementById('housefloor2')) {
+                if (zone.id === "downStairsCarpet") {
+                    zone.isActive = true;
+                }
             }
         })
 
@@ -373,9 +389,14 @@ customElements.define("hit-box", HitBox, { extends: "div" });
         // Draws the current frame of the sprite.
         lopez.draw(ctx);
 
-        document.querySelectorAll("div[is='hit-box']").forEach((hitbox) => {
-            hitbox.draw(ctx)
-        })
+        if (showBoxes) {
+            document.querySelectorAll("div[is='hit-box']").forEach((hitbox) => {
+                hitbox.draw(ctx)
+            })
+            document.querySelectorAll("div[is='collider-zone']").forEach((zone) => {
+                zone.draw(ctx)
+            })
+        }
 
         setTimeout(() => {requestAnimationFrame(moveLopez);}, LOPEZ_SPEED)
     }
@@ -410,5 +431,5 @@ customElements.define("hit-box", HitBox, { extends: "div" });
     }
 
     animate()
-    moveLopez(getAllCollisionsmovableDirections(), currentKeys, lopez, isMoving, ctx, gameFrame, backgroundImage, LOPEZ_SPEED)
+    moveLopez()
 });
