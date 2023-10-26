@@ -55,6 +55,8 @@ courses: { versions: {week: 0} }
                 this.maxFrame = FRAME_LIMIT -1;
                 this.frameX = 0;
                 this.frameY = 0;
+                this.left = 0;
+                this.top = 0;
             }
 
             draw(context) {
@@ -249,10 +251,11 @@ courses: { versions: {week: 0} }
                     lopez.frameX = 0 //idle frame for row 3
                 }
 
+
                 ctx.clearRect(0, 0, canvas.width, canvas.height); //clear old frame
                 lopez.draw(ctx); //draw idle frame
             }
-        })
+          
         // Animation recursive control function
         function animate() {
             if (!isMoving) return;
@@ -264,6 +267,7 @@ courses: { versions: {week: 0} }
             lopez.draw(ctx);
 
             // Updates the `frameX` property to prepare for the next frame in the sprite sheet.
+
             lopez.update();
             document.getElementById("lopezContainer").style.left = lopez.left + "px"
             document.getElementById("lopezContainer").style.top = lopez.top + "px"
@@ -272,6 +276,23 @@ courses: { versions: {week: 0} }
             // ensuring smooth visuals.
             setTimeout(() => {requestAnimationFrame(animate);}, ANIMATION_SPEED);
         }
+
+    class Collision{
+            constructor(height, width);
+            this.height = height;
+            this.width = width;
+        }
+        class Mort extends Collision {
+            constructor(height, width);
+            super(height, height);
+        }
+        var MortHeight = "25.8"
+        var MortWidth = "18.5"
+        var Mort = new Mort(height, width);
+        
+        
+
+
 
         // run 1st animate
         // animate();
