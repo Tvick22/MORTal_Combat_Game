@@ -131,26 +131,30 @@ function toggleDialogue() {
         position: absolute;
     }
 
+    #gameCanvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1; /* Ensure canvas is below other elements */
+}
+
     #MortTextbox {
-            position: absolute;
-            left: 342px !important; /* Adjust the left position as needed relative to the screen */
-            top: 680px !important; /* Adjust the top position as needed relative to the screen */
-            width: 854px !important;
-            height: 500px !important;
-            display: none; /* Set the initial display state to none */
-        }
+    position: absolute;
+    left: 342px; /* Adjust as needed */
+    top: 680px; /* Adjust as needed */
+    width: 854px !important;
+    height: 500px !important;
+    z-index: 2; /* Ensure textbox is above the canvas */
+    }
 
-     #textContent {
-            position: absolute;
-            left: 400px; /* Adjust the left position to match the MortTextbox */
-            top: 990px; /* Adjust the top position to match the MortTextbox */
-            display: none; /* Set the initial display state to none */
-            color: #000000;
-            font-size: 48px;
-        }
+    #textContent {
+    position: absolute;
+    left: 400px !important; /* Adjust as needed */
+    top: 990px !important; /* Adjust as needed */
+    z-index: 2; /* Ensure text is above the canvas and textbox */
+    color: #000000;
+    font-size: 24px; /* Adjust font size as needed */
+    }
+
     </style>
-
-
-
-
 </style>
