@@ -3,7 +3,7 @@
 <body>
     <div>
         <canvas id="spriteContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
-            <img id="jerrySprite" src="../../../home/kasm-user/Desktop/Downloads/jerrySprite.png">  // change sprite here
+            <img id="jerrySprite" src="{{ site.baseurl }}/images/jerry.png">  // change sprite here
         </canvas>
         <div id="controls"> <!--basic radio buttons which can be used to check whether each individual animaiton works -->
             <input type="radio" name="animation" id="idle" checked>
@@ -17,11 +17,11 @@
     window.addEventListener('load', function () {
         const canvas = document.getElementById('spriteContainer');
         const ctx = canvas.getContext('2d');
-        const SPRITE_WIDTH = 160;  // matches sprite pixel width
-        const SPRITE_HEIGHT = 144; // matches sprite pixel height
-        const FRAME_LIMIT = 4;  // matches number of frames per sprite row, this code assume each row is same
+        const SPRITE_WIDTH = 50;  
+        const SPRITE_HEIGHT = 55; 
+        const FRAME_LIMIT = 4;  
 
-        const SCALE_FACTOR = 2;  // control size of sprite on canvas
+        const SCALE_FACTOR = 1;  // control size of sprite on canvas
         canvas.width = SPRITE_WIDTH * SCALE_FACTOR;
         canvas.height = SPRITE_HEIGHT * SCALE_FACTOR;
 
@@ -82,8 +82,9 @@
                     default:
                         break;
                 }
+     jerry.draw(ctx);
+
             }
         });
     });
-     jerry.draw(ctx);
 </script>
