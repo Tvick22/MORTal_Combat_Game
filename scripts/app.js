@@ -2,7 +2,6 @@ window.addEventListener('load', function () {
     const gameFrame = document.getElementById('gameContainer');
     const ctx = gameFrame.getContext('2d');
 
-    const showBoxes = false;
 
     const firstBackgroundImage = document.getElementById("housefloor2")
     const BACKGROUND_HEIGHT = 700
@@ -342,16 +341,7 @@ customElements.define("hit-box", HitBox, { extends: "div" });
                 }, 1000)
                 zone.isActive = false
             }
-            if (backgroundImage.image === document.getElementById('housefloor1')) {
-                if (zone.id === "upStairsCarpet") {
-                    zone.isActive = true;
-                }
-            }
-            if (backgroundImage.image === document.getElementById('housefloor2')) {
-                if (zone.id === "downStairsCarpet") {
-                    zone.isActive = true;
-                }
-            }
+            zone.isActive = zone.getAttribute("backgroundId") == backgroundImage.image.getAttribute("id")
         })
 
         let allPossibleDirections = {
@@ -413,14 +403,21 @@ customElements.define("hit-box", HitBox, { extends: "div" });
         if (!isLoading) {
             lopez.draw(ctx);
         }
-
-        if (showBoxes) {
-            document.querySelectorAll("div[is='hit-box']").forEach((hitbox) => {
-                hitbox.draw(ctx)
-            })
-            document.querySelectorAll("div[is='collider-zone']").forEach((zone) => {
-                zone.draw(ctx)
-            })
+        
+        for (let i = 0; i < document.getElementsByClassName("backgroundImage").length; i++) {
+            const backgroundImage = document.getElementsByClassName("backgroundImage")[i]
+            if (backgroundImage.getAttribute("showBoxes") === "true") {
+                document.querySelectorAll("div[is='hit-box']").forEach((hitbox) => {
+                    if (hitbox.getAttribute("backgroundId") == backgroundImage.getAttribute("id")) {
+                        hitbox.draw(ctx)
+                    }
+                })
+                document.querySelectorAll("div[is='collider-zone']").forEach((zone) => {
+                    if (zone.getAttribute("backgroundId") == backgroundImage.getAttribute("id")) {
+                        zone.draw(ctx)
+                    }
+                })
+            }
         }
 
         setTimeout(() => {requestAnimationFrame(moveLopez);}, LOPEZ_SPEED)
