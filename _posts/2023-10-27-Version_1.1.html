@@ -1,0 +1,156 @@
+---
+layout: post
+title: Version 1.1
+description: Update to Version 1.0 with NPCs
+type: game
+courses: { versions: {week: 2} }
+---
+
+<head>
+    <meta name="layout" content="post">
+    <meta name="title" content="Version 1.1">
+    <meta name="description" content="Update to Version 1.0 with NPCs">
+    <meta name="type" content="game">
+    <meta name="courses" content="{ versions: {week: 2} }">
+</head>
+
+<html>
+    <div class="gameWrapper">
+        <div class="frameWrapper">
+            <div id="topMenu">
+                <button class="topMenuBtn" id="mainMenuBtn">Main Menu</button>
+                <button class="topMenuBtn" id="inventoryBtn">Inventory</button>
+                <button class="topMenuBtn" id="mapBtn">Map</button>
+                <div> <!-- Button for Textbox to appear -->
+                    <button onclick="toggleDialogue()">Start Dialogue</button>
+                    <img id="MortTextbox" src="{{ site.baseurl }}/images/morttextbox.png" alt="Mort Textbox" style="display: none; width: 300px; height: 200px">
+                    <div id="textContent" class="textContainer" style="display: none">
+                        Test test
+                    </div>
+                </div>                
+            </div>
+            <canvas id="mortContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
+                <img id="MortSprite" src="../../../images/transparentmortspritesheet.png">  // change sprite here
+            </canvas>
+            <canvas id="lopezContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
+                <img id="LopezSprite" src="../../../images/lopezspritesheet3.png">  // change sprite here
+            </canvas>
+            <img id="backgroundImage" width="854" height="850" src="../../../images/mortensenlabbackground.jpg"/>
+        </div>
+    </div>
+</html>
+
+<script>
+    var textbox = document.getElementById("MortTextbox");
+    var dialogLines = [
+        "Blah blah blah",
+        "This fr works",
+        "You are not the teacher",
+        // Add more dialogue lines as needed
+    ];
+
+    var currentLine = 0;
+
+    function updateText() {
+        if (currentLine < dialogLines.length) {
+            document.getElementById("textContent").textContent = dialogLines[currentLine];
+            currentLine++;
+        } else {
+            textbox.style.display = "none";
+            document.getElementById("textContent").style.display = "none";
+            currentLine = 0;
+        }
+    }
+
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "e" && document.getElementById("textContent").style.display === "block") {
+            updateText();
+        }
+    });
+
+// Function for Mort Textbox appearing, text appearing 0.1 second after
+function toggleDialogue() {
+        var textbox = document.getElementById("MortTextbox");
+        var text = document.getElementById("textContent");
+
+        if (textbox.style.display === "none" || textbox.style.display === "") {
+            textbox.style.display = "block";
+            text.style.display = "block";
+        } else {
+            textbox.style.display = "none";
+            text.style.display = "none";
+        }
+    }
+
+
+</script>
+
+<style>
+    .frameWrapper {
+        margin: auto;
+        width: 854px;
+        border: 2px solid #00ADB5;
+        text-align: center;
+        margin-top: 1%;
+    }
+    
+    .topMenuBtn {
+        border: 0px;
+        background-color: #393E46;
+        padding: 15px;
+    }
+
+    .topMenuBtn:hover {
+        border: 0px;
+        background-color: #393e469f;
+        padding: 15px;
+    }
+
+    #topMenu {
+        display: flex;
+        gap: 10px;
+        background-color: #393e465c;
+        justify-content: space-evenly;
+        align-content: center;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    #gameFrame {
+        background-color: #fff;
+        border-top: 2px solid #00ADB5;
+    }
+
+    #mortContainer {
+        position: absolute;
+        left: 500px;
+        top: 500px;
+    }
+
+    #lopezContainer {
+        position: absolute;
+    }
+
+    #MortTextbox {
+            position: absolute;
+            left: 342px !important; /* Adjust the left position as needed relative to the screen */
+            top: 680px !important; /* Adjust the top position as needed relative to the screen */
+            width: 854px !important;
+            height: 500px !important;
+            display: none; /* Set the initial display state to none */
+        }
+
+     #textContent {
+            position: absolute;
+            left: 400px; /* Adjust the left position to match the MortTextbox */
+            top: 990px; /* Adjust the top position to match the MortTextbox */
+            display: none; /* Set the initial display state to none */
+            color: #000000;
+            font-size: 48px;
+        }
+    </style>
+
+
+
+
+</style>

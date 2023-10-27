@@ -12,7 +12,7 @@ courses: { versions: {week: 2} }
             position: relative;
         }
 
-        #dialogueText {
+        #dialogueText { /* Positioning for text appearing */
             position: absolute;
             top: 430px; /* Adjust the top position as needed */
             left: 160px; /* Adjust the left position as needed */
@@ -20,7 +20,7 @@ courses: { versions: {week: 2} }
             display: none;
         }
     </style>
-    <script>
+    <script> /* Function for Mort Textbox appearing, text appearing 0.1 second after */
         function toggleDialogue() {
             var textbox = document.getElementById("MortTextbox");
             var text = document.getElementById("dialogueText");
@@ -38,7 +38,7 @@ courses: { versions: {week: 2} }
     </script>
 </head>
 
-<div>
+<div> /* Button for textbox appearing */
     <button onclick="toggleDialogue()">Start Dialogue</button>
     <img id="MortTextbox" src="{{ site.baseurl }}/images/morttextbox.png" alt="Mort Textbox" style="display: none; width: 300px; height: 200px">
     <div id="dialogueText">Your text goes here.</div>
