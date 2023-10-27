@@ -116,6 +116,58 @@ courses: {versions: {week: 0}}
         // run 1st animate
         animate();
     });
+
+const npc = document.getElementById("npc");
+const dialogueBox = document.getElementById("dialogue-box");
+const dialogueText = document.getElementById("dialogue");
+const nextButton = document.getElementById("next-button");
+
+const dialogues = [
+    "NPC: Hello there!",
+    "NPC: How can I help you?",
+    "NPC: Nice weather, isn't it?",
+    // Add more dialogues as needed
+];
+
+let currentDialogueIndex = 0;
+
+npc.addEventListener("click", () => {
+    if (currentDialogueIndex < dialogues.length) {
+        dialogueText.textContent = dialogues[currentDialogueIndex];
+        dialogueBox.style.display = "block";
+        nextButton.style.display = "block";
+        currentDialogueIndex++;
+    }
+});
+
+nextButton.addEventListener("click", () => {
+    if (currentDialogueIndex < dialogues.length) {
+        dialogueText.textContent = dialogues[currentDialogueIndex];
+        currentDialogueIndex++;
+    } else {
+        dialogueBox.style.display = "none";
+        nextButton.style.display = "none";
+    }
+});
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div id="npc">
+        <img src="npc.png" alt="NPC">
+        <div id="dialogue-box">
+            <p id="dialogue">NPC: Hello there!</p>
+        </div>
+    </div>
+    <button id="next-button">Next</button>
+    <script src="script.js"></script>
+</body>
+</html>
+
 </script>
 
 # Notes
