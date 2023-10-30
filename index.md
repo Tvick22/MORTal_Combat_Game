@@ -2,10 +2,16 @@
 layout: default
 title: Pre Game Screen
 ---
+<div style="display: flex; justify-content: center; align-items: center;">
+    <h1>Pokemort</h1>
+</div>
 
-## Pokemort
+<div style="display: flex; justify-content: center; align-items: center;">
+    <h2>Realest Ones Out There Studios Presents:</h2>
+</div>
 
-## Realest Ones Out There Studios Presents:
 
-<img src="images/titlescreen.png" alt="Title Screen">
+<div style="display: flex; justify-content: center; align-items: center;">
+    <img src="images/titlescreen.png" alt="Title Screen">
+</div>
 
