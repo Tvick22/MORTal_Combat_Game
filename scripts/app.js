@@ -27,6 +27,8 @@ window.addEventListener('load', function () {
             this.image = document.getElementById("lopezSprite");
             this.x = START_X;
             this.y = START_Y;
+            this.width = SPRITE_WIDTH*SCALE_FACTOR
+            this.height = SPRITE_HEIGHT*SCALE_FACTOR
             this.minFrame = 0;
             this.maxFrame = FRAME_LIMIT -1;
             this.frameX = 0;
@@ -43,26 +45,9 @@ window.addEventListener('load', function () {
                 SPRITE_HEIGHT,
                 this.x,
                 this.y,
-                SPRITE_WIDTH*SCALE_FACTOR,
-                SPRITE_HEIGHT*SCALE_FACTOR
+                this.width,
+                this.height
             );
-        }
-        getOutlineAxis() {
-            const x = Number(this.x);
-            const y = Number(this.y);
-
-            function makeCoordPair(x, y) {
-                return {'x': x, 'y': y}
-            }
-
-            const xVals = [...Array(Math.floor(SPRITE_WIDTH*SCALE_FACTOR)+1).keys()].map((number) => {
-                return x+number
-            })
-            const yVals = [...Array(Math.floor(SPRITE_HEIGHT*SCALE_FACTOR)+1).keys()].map((number) => {
-                return y+number
-            })
-            
-            return {'x': xVals, 'y': yVals};
         }
         // update frameX of object
         updateFrame() {
@@ -98,78 +83,76 @@ window.addEventListener('load', function () {
         if (!this.getAttribute("width") || !this.getAttribute("height") || !this.getAttribute("x") || !this.getAttribute("y") || !this.getAttribute("backgroundId")) {
             throw new Error("Needs required attributes (height, width, x, y, and background)")
         }
-        this.height = this.getAttribute("height")
-        this.width = this.getAttribute("width")
-        this.x = this.getAttribute("x")
-        this.y =  this.getAttribute("y")
+        this.height = Number(this.getAttribute("height"))
+        this.width = Number(this.getAttribute("width"))
+        this.x = Number(this.getAttribute("x"))
+        this.y =  Number(this.getAttribute("y"))
         this.style.backgroundColor = 'red'
-        this.xVals = this.getOutlineAxis().x
-        this.yVals = this.getOutlineAxis().y
         this.active = false
         this.background = document.getElementById(this.getAttribute("backgroundId"))
     }
-    getOutlineAxis() {
-        const x = Number(this.x);
-            const y = Number(this.y);
+    getNonCollidingDirections(player) {
 
-            function makeCoordPair(x, y) {
-                return {'x': x, 'y': y}
+        const canMoveUp = () => {
+            const futureY = player.y - LOPEZ_SPEED
+            if (
+            player.x + (player.width) >= this.x && //left 
+            player.x <= this.x + this.width && //right
+            futureY + (player.height) >= this.y && //top
+            futureY <= this.y + this.height //bottom
+            )
+            {
+                return false
             }
-
-            const xVals = [...Array(Math.floor(this.width)+1).keys()].map((number) => {
-                return x+number 
-            })
-            const yVals = [...Array(Math.floor(this.height)+1).keys()].map((number) => {
-                return y+number
-            })
-
-            return {'x': xVals, 'y': yVals};
-    }
-    getNonCollidingDirections(coordValues) {
-        const playerXVals = coordValues.x
-        const playerYVals = coordValues.y
+            return true
+        }
+        const canMoveDown = () => {
+            const futureY = player.y + LOPEZ_SPEED
+            if (
+            player.x + (player.width) >= this.x && //left 
+            player.x <= this.x + this.width && //right
+            futureY + (player.height) >= this.y && //top
+            futureY <= this.y + this.height //bottom
+            )
+            {
+                return false
+            }
+            return true
+        }
+        const canMoveLeft = () => {
+            const futureX = player.x - LOPEZ_SPEED
+            if (
+            futureX + (player.width) >= this.x && //left 
+            futureX <= this.x + this.width && //right
+            player.y + (player.height) >= this.y && //top
+            player.y <= this.y + this.height //bottom
+            )
+            {
+                return false
+            }
+            return true
+        }
+        const canMoveRight = () => {
+            const futureX = player.x + LOPEZ_SPEED
+            if (
+            futureX + (player.width) >= this.x && //left 
+            futureX <= this.x + this.width && //right
+            player.y + (player.height) >= this.y && //top
+            player.y <= this.y + this.height //bottom
+            )
+            {
+                return false
+            }
+            return true
+        }
 
         const moveableDirections = {
-                'left': true,
-                'right': true,
-                'up': true,
-                'down': true
-            }
-
-        const possibleXVals = playerXVals.filter((xVal) => {
-            if (this.xVals.includes(xVal)) {
-                return true;
-            }
-            return false;
-        })
-
-        if (!possibleXVals.length) {
-            return moveableDirections;
+            'left': canMoveLeft(),
+            'right': canMoveRight(),
+            'up': canMoveUp(),
+            'down': canMoveDown()
         }
 
-        const possibleYVals = playerYVals.filter((yVal) => {
-            if (this.yVals.includes(yVal)) {
-                return true;
-            }
-            return false;
-        })
-
-
-        if (possibleYVals.length && possibleXVals.length) {
-            if (possibleYVals[0] === Number(this.yVals[0]) && possibleYVals.length <= 3) {
-                moveableDirections.down = false;
-            }
-            if (possibleYVals[possibleYVals.length-1] === Number(this.yVals[this.yVals.length-1]) && possibleYVals.length <= 3) {
-                moveableDirections.up = false
-            }
-            if (possibleXVals[0] === Number(this.xVals[0]) && possibleXVals.length <= 3) {
-                moveableDirections.right = false;
-            }
-            if (possibleXVals[possibleXVals.length-1] === Number(this.xVals[this.xVals.length-1]) && possibleXVals.length <= 3) {
-                moveableDirections.left = false
-            }
-            return moveableDirections;
-        }
         return moveableDirections
     }
     draw (context) {
@@ -190,61 +173,25 @@ class ColliderZone extends HTMLDivElement {
         if (!this.getAttribute("width") || !this.getAttribute("height") || !this.getAttribute("x") || !this.getAttribute("y") || !this.getAttribute("newBackground") || !this.getAttribute("newX") || !this.getAttribute("newY")) {
             throw new Error("Needs required attributes (height, width, x, y, newX, and newY)")
         }
-        this.height = this.getAttribute("height")
-        this.width = this.getAttribute("width")
-        this.x = this.getAttribute("x")
-        this.y =  this.getAttribute("y")
+        this.height = Number(this.getAttribute("height"))
+        this.width = Number(this.getAttribute("width"))
+        this.x = Number(this.getAttribute("x"))
+        this.y =  Number(this.getAttribute("y"))
         this.newBackground = this.getAttribute("newBackground")
         this.style.backgroundColor = 'red'
-        this.xVals = this.getOutlineAxis().x
-        this.yVals = this.getOutlineAxis().y
         this.newX = this.getAttribute("newX")
         this.newY = this.getAttribute("newY")
         this.isActive = false;
     }
-    getOutlineAxis() {
-        const x = Number(this.x);
-            const y = Number(this.y);
-
-            const xVals = [...Array(Math.floor(this.width)+1).keys()].map((number) => {
-                return x+number 
-            })
-            const yVals = [...Array(Math.floor(this.height)+1).keys()].map((number) => {
-                return y+number
-            })
-
-            return {'x': xVals, 'y': yVals};
-    }
-    isColliding(coordValues) {
-        const playerXVals = coordValues.x
-        const playerYVals = coordValues.y
-
-
-        if (!this.isActive) {
-            return false;
-        }
-
-        const possibleXVals = playerXVals.filter((xVal) => {
-            if (this.xVals.includes(xVal)) {
-                return true;
-            }
-            return false;
-        })
-
-        if (!possibleXVals.length) {
-            return false;
-        }
-
-        const possibleYVals = playerYVals.filter((yVal) => {
-            if (this.yVals.includes(yVal)) {
-                return true;
-            }
-            return false;
-        })
-
-
-        if (possibleYVals.length && possibleXVals.length) {
-            return true;
+    
+    isColliding(player) {
+        if (
+            player.x + (player.width) >= this.x && //left 
+            player.x <= this.x + this.width && //right
+            player.y + (player.height) >= this.y && //top
+            player.y <= this.y + this.height //bottom
+        ) {
+            return true
         }
         return false
     }
@@ -321,7 +268,7 @@ customElements.define("hit-box", HitBox, { extends: "div" });
 
 
         colliderZones.forEach((zone) => {
-            if (zone.isActive && zone.isColliding(lopez.getOutlineAxis())) {
+            if (zone.isActive && zone.isColliding(lopez)) {
                 lopez.x = Number(zone.newX)
                 lopez.y = Number(zone.newY)
                 isLoading = true
@@ -344,17 +291,18 @@ customElements.define("hit-box", HitBox, { extends: "div" });
             zone.isActive = zone.getAttribute("backgroundId") == backgroundImage.image.getAttribute("id")
         })
 
-        let allPossibleDirections = {
+        const allPossibleDirections = {
                 'left': true,
                 'right': true,
                 'up': true,
-                'down': true
+                'down': true,
+                
         }
 
         hitBoxes.forEach((hitbox) => {
-            const hitboxDirections = hitbox.getNonCollidingDirections(lopez.getOutlineAxis());
+            const hitboxDirections = hitbox.getNonCollidingDirections(lopez);
 
-            if (hitbox.active == false) {
+            if (!hitbox.active) {
                 return;
             }
 
@@ -371,7 +319,6 @@ customElements.define("hit-box", HitBox, { extends: "div" });
                 allPossibleDirections.down = false
             }
         })
-
         return allPossibleDirections;
     }
 
