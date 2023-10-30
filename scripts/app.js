@@ -62,16 +62,16 @@ window.addEventListener('load', function () {
     class BackgroundImage {
         constructor () {
             this.image = firstBackgroundImage;
-            this.height = BACKGROUND_HEIGHT;
-            this.width = BACKGROUND_WIDTH;
+            this.height = Number(this.image.getAttribute("height"));
+            this.width = Number(this.image.getAttribute("width"))
         }
         draw(context) {
             context.drawImage(
                 this.image,
                 0,
                 0,
-                BACKGROUND_WIDTH,
-                BACKGROUND_HEIGHT
+                gameFrame.width,
+                gameFrame.height,
             );
         }
     }
