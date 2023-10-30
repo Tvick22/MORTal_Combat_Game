@@ -1,9 +1,9 @@
 ---
+title: Version 1.1 Test
 layout: post
-title: Version 1.1
-description: Update to Version 1.0 with NPCs
+description: NPC Testing
 type: game
-courses: { versions: {week: 2} }
+courses: {'versions': {'week': 2}}
 ---
 
 <head>
@@ -23,7 +23,7 @@ courses: { versions: {week: 2} }
                 <button class="topMenuBtn" id="mapBtn">Map</button>
                 <div> <!-- Button for Textbox to appear -->
                     <button onclick="toggleDialogue()">Start Dialogue</button>
-                    <img id="MortTextbox" src="{{ site.baseurl }}/images/morttextbox.png" alt="Mort Textbox" style="display: none; width: 300px; height: 200px">
+                    <img id="MortTextbox" src="../../../images/morttextbox.png" alt="Mort Textbox" style="display: none; width: 300px; height: 200px">
                     <div id="textContent" class="textContainer" style="display: none">
                         Test test
                     </div>
@@ -86,6 +86,15 @@ function toggleDialogue() {
 </script>
 
 <style>
+    @font-face {
+        font-family: 'DP';
+        src: url('../../../assets/pokemon-dp-pro.ttf') format('truetype');
+    }
+
+    .textContainer {
+        font-family: 'DP', PokemonDP;
+    }
+
     .frameWrapper {
         margin: auto;
         width: 854px;
@@ -155,6 +164,5 @@ function toggleDialogue() {
     color: #000000;
     font-size: 24px; /* Adjust font size as needed */
     }
-
     </style>
 </style>
