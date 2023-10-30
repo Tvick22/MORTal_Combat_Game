@@ -102,6 +102,9 @@ window.addEventListener('load', function () {
             futureY <= this.y + this.height //bottom
             )
             {
+                if (Math.abs(player.y - (this.y+this.height)) <= LOPEZ_SPEED) {
+                    player.y -= Math.abs(player.y - (this.y+this.height))-1
+                }
                 return false
             }
             return true
@@ -115,6 +118,9 @@ window.addEventListener('load', function () {
             futureY <= this.y + this.height //bottom
             )
             {
+                if (Math.abs((player.y+player.height) - this.y) <= LOPEZ_SPEED) {
+                    player.y += Math.abs((player.y+player.height) - this.y)-1
+                }
                 return false
             }
             return true
@@ -128,6 +134,9 @@ window.addEventListener('load', function () {
             player.y <= this.y + this.height //bottom
             )
             {
+                if (Math.abs(player.x - (this.x+this.width)) <= LOPEZ_SPEED) {
+                    player.x -= Math.abs(player.x - (this.x+this.width))-1
+                }
                 return false
             }
             return true
@@ -141,6 +150,9 @@ window.addEventListener('load', function () {
             player.y <= this.y + this.height //bottom
             )
             {
+                if (Math.abs((player.x+player.width) - this.x) <= LOPEZ_SPEED) {
+                    player.x += Math.abs((player.x+player.width) - this.x) -1
+                }
                 return false
             }
             return true
