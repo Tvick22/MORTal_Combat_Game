@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Version 1.0
-description: Initial Version
-type: game
+title: NPC
+description: NPC Sprite
 courses: { versions: {week: 0} }
 ---
 
@@ -22,11 +21,9 @@ courses: { versions: {week: 0} }
                 <button class="topMenuBtn" id="inventoryBtn">Inventory</button>
                 <button class="topMenuBtn" id="mapBtn">Map</button>
             </div>
-            <canvas id="mortContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
-                <img id="MortSprite" src="../../../images/transparentmortspritesheet.png">  // change sprite here
+            <canvas id="npcContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
+                <img id="npc" src="../../../images/NPC.png">  
             </canvas>
-            <canvas id="lopezContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
-                <img id="LopezSprite" src="../../../images/lopezspritesheet2.png">  // change sprite here
             </canvas>
             <img id="backgroundImage" width="854" height="850" src="../../../images/mortensenlabbackground.jpg"/>
         </div>
@@ -36,27 +33,25 @@ courses: { versions: {week: 0} }
 <script>
     // start on page load
     window.addEventListener('load', function () {
-        const canvas = document.getElementById('mortContainer');
+        const canvas = document.getElementById('npcContainer');
         const ctx = canvas.getContext('2d');
-        const SPRITE_WIDTH = 18;  // matches sprite pixel width
-        const SPRITE_HEIGHT = 25.8; // matches sprite pixel height
+        const SPRITE_WIDTH = 300;  // matches sprite pixel width
+        const SPRITE_HEIGHT = 300; // matches sprite pixel height
         const FRAME_LIMIT = 4;  // matches number of frames per sprite row, this code assume each row is same
 
         const SCALE_FACTOR = 4;  // control size of sprite on canvas
         canvas.width = SPRITE_WIDTH * SCALE_FACTOR;
         canvas.height = SPRITE_HEIGHT * SCALE_FACTOR;
 
-        class Mort {
+        class npc {
             constructor() {
-                this.image = document.getElementById("MortSprite");
+                this.image = document.getElementById("npcSprite");
                 this.x = 0;
                 this.y = 0;
                 this.minFrame = 0;
                 this.maxFrame = FRAME_LIMIT -1;
                 this.frameX = 0;
                 this.frameY = 0;
-                this.left = 0;
-                this.top = 0;
             }
 
             draw(context) {
@@ -83,7 +78,7 @@ courses: { versions: {week: 0} }
             }
         }
 
-        const mort = new Mort();
+        const npc = new npc();
 
         // const controls = document.getElementById('controls');
         // controls.addEventListener('click', function (event) {
@@ -114,10 +109,10 @@ courses: { versions: {week: 0} }
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Draws the current frame of the sprite.
-            mort.draw(ctx);
+            npc.draw(ctx);
 
             // Updates the `frameX` property to prepare for the next frame in the sprite sheet.
-            mort.update();
+            npc.update();
 
             // Uses `requestAnimationFrame` to synchronize the animation loop with the display's refresh rate,
             // ensuring smooth visuals.
@@ -251,11 +246,10 @@ courses: { versions: {week: 0} }
                     lopez.frameX = 0 //idle frame for row 3
                 }
 
-
                 ctx.clearRect(0, 0, canvas.width, canvas.height); //clear old frame
                 lopez.draw(ctx); //draw idle frame
             }
-          
+        })
         // Animation recursive control function
         function animate() {
             if (!isMoving) return;
@@ -267,7 +261,6 @@ courses: { versions: {week: 0} }
             lopez.draw(ctx);
 
             // Updates the `frameX` property to prepare for the next frame in the sprite sheet.
-
             lopez.update();
             document.getElementById("lopezContainer").style.left = lopez.left + "px"
             document.getElementById("lopezContainer").style.top = lopez.top + "px"
@@ -276,23 +269,6 @@ courses: { versions: {week: 0} }
             // ensuring smooth visuals.
             setTimeout(() => {requestAnimationFrame(animate);}, ANIMATION_SPEED);
         }
-
-    class Collision{
-            constructor(height, width);
-            this.height = height;
-            this.width = width;
-        }
-        class Mort extends Collision {
-            constructor(height, width);
-            super(height, height);
-        }
-        var MortHeight = "25.8"
-        var MortWidth = "18.5"
-        var Mort = new Mort(height, width);
-        
-        
-
-
 
         // run 1st animate
         // animate();
@@ -345,7 +321,7 @@ courses: { versions: {week: 0} }
         border-top: 2px solid #00ADB5;
     }
 
-    #mortContainer {
+    #npcContainer {
         position: absolute;
         left: 500px;
         top: 500px;
