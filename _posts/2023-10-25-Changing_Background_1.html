@@ -16,13 +16,15 @@ courses: { versions: {week: 2} }
             </div>
             <canvas id="gameContainer">
                 <img id="loadingScreen" src="../../../images/loadingscreen.png"/>
-                <img class="backgroundImage" id="housefloor2" width="768" height="700" src="../../../images/housefloor2.png" showBoxes="true"/>
-                <img class="backgroundImage" id="housefloor1" width="768" height="700" src="../../../images/housefloor1.png" showBoxes="false"/>
+                <img class="backgroundImage" id="housefloor2" width="800" height="700" src="../../../images/housefloor2.png" showBoxes="false"/>
+                <img class="backgroundImage" id="housefloor1" width="800" height="700" src="../../../images/housefloor1.png" showBoxes="false"/>
+                <img class="backgroundImage" id="avenidaTown" width="800" height="700" src="../../../images/Avenida_Town.png" showBoxes="false"/>
 
                 <img id="lopezSprite" src="../../../images/lopezspritesheet3.png">
 
                 <div id="downStairsCarpet" is="collider-zone" width="60" height="105" x="560" y="230" newBackground="housefloor1" newX="700" newY="144" backgroundId="housefloor2"></div>
                 <div id="upStairsCarpet" is="collider-zone" width="20" height="100" x="616" y="124" newBackground="housefloor2" newX="436" newY="216" backgroundId="housefloor1"></div>
+                <div id="exitHouse" is="collider-zone" width="120" height="40" x="340" y="635" newBackground="avenidaTown" newX="700" newY="144" backgroundId="housefloor1"></div>
 
                 <div is="hit-box" height="170" width="800" x="0" y="0" backgroundId="housefloor2"></div> <!--top bar-->
                 <div is="hit-box" height="800" width="20" x="0" y="0" backgroundId="housefloor2"></div> <!--left bar-->
