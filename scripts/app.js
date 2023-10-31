@@ -36,6 +36,10 @@ window.addEventListener('load', function () {
             this.currentDirection = 'down'; 
         }
 
+        resize() {
+            this.width = SPRITE_WIDTH*backgroundImage.playerScaleFactor
+            this.height = SPRITE_HEIGHT*backgroundImage.playerScaleFactor
+        }
         draw(context) {
             context.drawImage(
                 this.image,
@@ -64,6 +68,7 @@ window.addEventListener('load', function () {
             this.image = firstBackgroundImage;
             this.height = Number(this.image.getAttribute("height"));
             this.width = Number(this.image.getAttribute("width"))
+            this.playerScaleFactor = SCALE_FACTOR
         }
         draw(context) {
             context.drawImage(
@@ -284,6 +289,9 @@ customElements.define("hit-box", HitBox, { extends: "div" });
                 lopez.x = Number(zone.newX)
                 lopez.y = Number(zone.newY)
                 isLoading = true
+                backgroundImage.playerScaleFactor = document.getElementById(zone.newBackground).getAttribute("newScaleFactor") ? Number(document.getElementById(zone.newBackground).getAttribute("newScaleFactor")) : SCALE_FACTOR
+                lopez.resize()
+                LOPEZ_SPEED = speedValues[backgroundImage.playerScaleFactor]
                 isMoving = false
                 backgroundImage.image = document.getElementById("loadingScreen")
                 setTimeout(() => {
@@ -340,13 +348,13 @@ customElements.define("hit-box", HitBox, { extends: "div" });
         if (currentKeys.includes("up") && isMoving && lopez.y > 0 && movableDirections.up && !isLoading) {
             lopez.y -= LOPEZ_SPEED
         }
-        if (currentKeys.includes("down") && isMoving && lopez.y < gameFrame.height-(SCALE_FACTOR*SPRITE_HEIGHT) && movableDirections.down && !isLoading) {
+        if (currentKeys.includes("down") && isMoving && lopez.y < gameFrame.height-(backgroundImage.playerScaleFactor*SPRITE_HEIGHT) && movableDirections.down && !isLoading) {
             lopez.y += LOPEZ_SPEED
         }
         if (currentKeys.includes("left") && isMoving && lopez.x > 0 && movableDirections.left && !isLoading) {
             lopez.x -= LOPEZ_SPEED
         }
-        if (currentKeys.includes("right") && isMoving && lopez.x < gameFrame.width-(SCALE_FACTOR*SPRITE_WIDTH) && movableDirections.right && !isLoading) {
+        if (currentKeys.includes("right") && isMoving && lopez.x < gameFrame.width-(backgroundImage.playerScaleFactor*SPRITE_WIDTH) && movableDirections.right && !isLoading) {
             lopez.x += LOPEZ_SPEED
         }
 
@@ -420,6 +428,11 @@ customElements.define("hit-box", HitBox, { extends: "div" });
             hitbox.active = true;
         }
     })
+    const speedValues = {
+        1.7: 4,
+        0.6: 2,
+        0.9: 2
+    }
 
     animate()
     moveLopez()
