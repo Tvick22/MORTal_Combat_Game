@@ -4,7 +4,7 @@ title: Changing Background
 description: Implement Background Changing with Collisions
 type: game
 courses: { versions: {week: 2} }
----
+
 
 <html>
     <div id="gameWrapper" class="gameWrapper">
@@ -19,13 +19,13 @@ courses: { versions: {week: 2} }
                 <img class="backgroundImage" id="housefloor2" width="800" height="700" src="../../../images/housefloor2.png" showBoxes="false"/>
                 <img class="backgroundImage" id="housefloor1" width="800" height="700" src="../../../images/housefloor1.png" showBoxes="false"/>
                 <img class="backgroundImage" id="avenidaTown" width="800" height="700" src="../../../images/maps/AvenidaFull.png" showBoxes="false" newScaleFactor="0.6"/>
-                <img class="backgroundImage" id="route1" width="800" height="700" src="../../../images/maps/Route2.png" showBoxes="false" newScaleFactor="0.85"/>
+                <img class="backgroundImage" id="route1" width="800" height="700" src="../../../images/maps/Route2.png" showBoxes="false" newScaleFactor="0.9"/>
                 <img class="backgroundImage" id="academy" width="800" height="700" src="../../../images/maps/Pokemort_AcademyFull.png" showBoxes="false" newScaleFactor="0.6"/>
-                <img class="backgroundImage" id="lab" width="800" height="700" src="../../../images/mortensenlabbackground.jpg" showBoxes="false" newScaleFactor="1.5"/>
+                <img class="backgroundImage" id="lab" width="800" height="700" src="../../../images/mortlabbackground.png" showBoxes="false"/>
 
-                <img id="lopezSprite" src="../../../images/lopezspritesheet3.png" style="z-index: 100;">
+                <img id="lopezSprite" src="../../../images/lopezspritesheet3.png">
 
-                <div id="downStairsCarpet" is="collider-zone" width="60" height="105" x="560" y="230" newBackground="housefloor1" newX="700" newY="144" backgroundId="housefloor2"></div>
+                <div id="downStairsCarpet" is="collider-zone" width="60" height="105" x="560" y="230" newBackground="housefloor1" newX="700" newY="200" backgroundId="housefloor2"></div>
                 <div id="upStairsCarpet" is="collider-zone" width="20" height="100" x="616" y="124" newBackground="housefloor2" newX="436" newY="216" backgroundId="housefloor1"></div>
                 <div id="exitHouse" is="collider-zone" width="120" height="40" x="340" y="635" newBackground="avenidaTown" newX="172" newY="280" backgroundId="housefloor1"></div>
                 <div id="enterHouse" is="collider-zone" width="30" height="10" x="168" y="250" newBackground="housefloor1" newX="340" newY="500" backgroundId="avenidaTown"></div>
@@ -61,6 +61,23 @@ courses: { versions: {week: 2} }
                 <div is="hit-box" height="170" width="70" x="710" y="509" backgroundId="housefloor1"></div> <!--bottom right plant-->
                 <div is="hit-box" height="170" width="69" x="21" y="509" backgroundId="housefloor1"></div> <!--bottom left plant-->
 
+                <div is="hit-box" height="699" width="68" x="0" y="0" backgroundId="avenidaTown"></div> <!-- left trees -->
+                <div is="hit-box" height="48" width="263" x="69" y="0" backgroundId="avenidaTown"></div> <!-- top left trees -->
+                <div is="hit-box" height="46" width="339" x="460" y="0" backgroundId="avenidaTown"></div> <!-- top right trees -->
+                <div is="hit-box" height="622" width="70" x="729" y="47" backgroundId="avenidaTown"></div> <!-- right trees -->
+                <div is="hit-box" height="115" width="659" x="69" y="584" backgroundId="avenidaTown"></div> <!-- bottom trees and water-->
+                <div is="hit-box" height="71" width="193" x="69" y="60" backgroundId="avenidaTown"></div> <!-- top left flowers -->
+                <div is="hit-box" height="72" width="197" x="531" y="59" backgroundId="avenidaTown"></div> <!-- top right flowers -->
+                <div is="hit-box" height="110" width="33" x="133" y="159" backgroundId="avenidaTown"></div> <!-- top left house 1-->
+                <div is="hit-box" height="90" width="103" x="167" y="159" backgroundId="avenidaTown"></div> <!-- top left house 2-->
+                <div is="hit-box" height="18" width="99" x="198" y="250" backgroundId="avenidaTown"></div> <!-- top left house 3-->
+                <div is="hit-box" height="99" width="133" x="496" y="170" backgroundId="avenidaTown"></div> <!-- top right house -->
+                <div is="hit-box" height="100" width="164" x="164" y="363" backgroundId="avenidaTown"></div> <!-- bottom left house -->
+                <div is="hit-box" height="111" width="167" x="496" y="353" backgroundId="avenidaTown"></div> <!-- bottom right house -->
+                <div is="hit-box" height="25" width="24" x="302" y="244" backgroundId="avenidaTown"></div> <!-- mailbox 1 -->
+                <div is="hit-box" height="25" width="24" x="467" y="438" backgroundId="avenidaTown"></div> <!-- mailbox 2 -->
+                <div is="hit-box" height="18" width="28" x="399" y="290" backgroundId="avenidaTown"></div> <!-- sign -->
+
                 <div is="hit-box" height="47" width="549" x="0" y="652" backgroundId="route1"></div> <!-- bottom trees -->
                 <div is="hit-box" height="37" width="459" x="0" y="614" backgroundId="route1"></div> <!-- bottom trees 2 -->
                 <div is="hit-box" height="613" width="84" x="0" y="0" backgroundId="route1"></div> <!-- left side trees -->
@@ -82,24 +99,9 @@ courses: { versions: {week: 2} }
                 <div is="hit-box" height="13" width="125" x="482" y="274" backgroundId="route1"></div> <!-- top right ledge --> 
                 <div is="hit-box" height="11" width="103" x="209" y="526" backgroundId="route1"></div> <!-- bottom left ledge -->  
                 <div is="hit-box" height="10" width="183" x="484" y="526" backgroundId="route1"></div> <!-- bottom right ledge -->
-                <div is="hit-box" height="50" width="30" x="373" y="123" backgroundId="route1"></div> <!-- top sign -->
+                <div is="hit-box" height="40" width="30" x="373" y="123" backgroundId="route1"></div> <!-- top sign -->
                 <div is="hit-box" height="26" width="20" x="433" y="368" backgroundId="route1"></div> <!-- middle sign --> 
                 <div is="hit-box" height="28" width="28" x="520" y="537" backgroundId="route1"></div> <!-- bottom sign -->
-
-                <div is="hit-box" height="699" width="68" x="0" y="0" backgroundId="avenidaTown"></div> <!-- left trees -->
-                <div is="hit-box" height="48" width="263" x="69" y="0" backgroundId="avenidaTown"></div> <!-- top left trees -->
-                <div is="hit-box" height="46" width="339" x="460" y="0" backgroundId="avenidaTown"></div> <!-- top right trees -->
-                <div is="hit-box" height="622" width="70" x="729" y="47" backgroundId="avenidaTown"></div> <!-- right trees -->
-                <div is="hit-box" height="115" width="659" x="69" y="584" backgroundId="avenidaTown"></div> <!-- bottom trees and water-->
-                <div is="hit-box" height="71" width="193" x="69" y="60" backgroundId="avenidaTown"></div> <!-- top left flowers -->
-                <div is="hit-box" height="72" width="197" x="531" y="59" backgroundId="avenidaTown"></div> <!-- top right flowers -->
-                <div is="hit-box" height="111" width="164" x="132" y="158" backgroundId="avenidaTown"></div> <!-- top left house -->
-                <div is="hit-box" height="99" width="133" x="496" y="170" backgroundId="avenidaTown"></div> <!-- top right house -->
-                <div is="hit-box" height="100" width="164" x="164" y="363" backgroundId="avenidaTown"></div> <!-- bottom left house -->
-                <div is="hit-box" height="111" width="167" x="496" y="353" backgroundId="avenidaTown"></div> <!-- bottom right house -->
-                <div is="hit-box" height="25" width="24" x="302" y="244" backgroundId="avenidaTown"></div> <!-- mailbox 1 -->
-                <div is="hit-box" height="25" width="24" x="467" y="438" backgroundId="avenidaTown"></div> <!-- mailbox 2 -->
-                <div is="hit-box" height="18" width="28" x="399" y="290" backgroundId="avenidaTown"></div> <!-- sign -->
 
                 <div is="hit-box" height="91" width="211" x="0" y="0" backgroundId="academy"></div> <!-- top left -->
                 <div is="hit-box" height="89" width="398" x="92" y="0" backgroundId="academy"></div> <!-- top 1 -->
@@ -153,7 +155,7 @@ courses: { versions: {week: 2} }
                 <div is="hit-box" height="13" width="12" x="504" y="597" backgroundId="academy"></div> <!-- sign 4 -->
                 <div is="hit-box" height="42" width="29" x="402" y="280" backgroundId="academy"></div> <!-- tree -->
                 <div is="hit-box" height="49" width="46" x="444" y="271" backgroundId="academy"></div> <!-- fountain -->
-               
+                
                 <div is="hit-box" height="143" width="531" x="0" y="0" backgroundId="lab"></div> <!-- top 1 -->
                 <div is="hit-box" height="186" width="71" x="532" y="0" backgroundId="lab"></div> <!-- top 2 -->
                 <div is="hit-box" height="141" width="195" x="604" y="0" backgroundId="lab"></div> <!-- top 3 -->
