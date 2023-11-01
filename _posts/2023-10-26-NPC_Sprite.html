@@ -1,4 +1,34 @@
-%%html
+---
+layout: post
+title: NPC
+description: NPC Sprite
+courses: { versions: {week: 0} }
+---
+
+<head>
+    <meta name="layout" content="post">
+    <meta name="title" content="Version 1.0">
+    <meta name="description" content="Initial Version">
+    <meta name="type" content="game">
+    <meta name="courses" content="{ versions: {week: 0} }">
+</head>
+
+<html>
+    <div class="gameWrapper">
+        <div class="frameWrapper">
+            <div id="topMenu">
+                <button class="topMenuBtn" id="mainMenuBtn">Main Menu</button>
+                <button class="topFMenuBtn" id="inventoryBtn">Inventory</button>
+                <button class="topMenuBtn" id="mapBtn">Map</button>
+            </div>
+            <canvas id="npcContainer"> <!-- Within the base div is a canvas. An HTML canvas is used only for graphics. It allows the user to access some basic functions related to the image created on the canvas (including animation) -->
+                <img id="npc" src="../../../images/NPC.png">  
+            </canvas>
+            </canvas>
+            <img id="backgroundImage" width="854" height="850" src="../../../images/mortensenlabbackground.jpg"/>
+        </div>
+    </div>
+</html>
 
 <html>
     <div id="gameWrapper" class="gameWrapper">
@@ -89,7 +119,7 @@
         border-top: 2px solid #00ADB5;
     }
 
-    #mortContainer {
+    #npcContainer {
         position: absolute;
         left: 500px;
         top: 500px;
@@ -99,102 +129,3 @@
         position: absolute;
     }
 </style>
-
-<body>
-    <div>
-        <canvas id="spriteContainer"> 
-        
-            <img id="jerrySprite" src="{{ site.baseurl }}/images/transparentmortspritesheet.png">  // change sprite here
-        </canvas>
-        <div id="controls"> <!--basic radio buttons which can be used to check whether each individual animaiton works -->
-            <input type="radio" name="animation" id="idle" checked>
-            <label for="idle">Idle</label><br>
-        </div>
-    </div>
-</body>
-
-<script>
-    
-    // start on page load
-    window.addEventListener('load', function () {
-        const canvas = document.getElementById('spriteContainer');
-        const ctx = canvas.getContext('2d');
-        const SPRITE_WIDTH = 18;  
-        const SPRITE_HEIGHT = 25; 
-        const FRAME_LIMIT = 4;  
-
-        const SCALE_FACTOR = 3;  // control size of sprite on canvas
-        canvas.width = SPRITE_WIDTH * SCALE_FACTOR;
-        canvas.height = SPRITE_HEIGHT * SCALE_FACTOR;
-
-        class Jerry {
-            constructor() {
-                this.image = document.getElementById("jerrySprite");
-                this.x = 0;
-                this.y = 0;
-                this.minFrame = 0;
-                this.maxFrame = FRAME_LIMIT;
-                this.frameX = 0;
-                this.frameY = 0;
-            }
-
-            turn() {
-               const directions = {
-                "up": 3
-                "down": 0
-                "right": 1
-                "left": 2
-               }
-            }
-
-            // draw dog object
-            draw(context) {
-                context.drawImage(
-                    this.image,
-                    this.frameX * SPRITE_WIDTH,
-                    this.frameY * SPRITE_HEIGHT,
-                    SPRITE_WIDTH,
-                    SPRITE_HEIGHT,
-                    this.x,
-                    this.y,
-                    canvas.width,
-                    canvas.height
-                );
-            }
-
-            // update frameX of object
-            update() {
-                if (this.frameX < this.maxFrame) {
-                    this.frameX++;
-                } else {
-                    this.frameX = 0;
-                }
-            }
-        }
-
-        
-        const jerry = new Jerry();
-
-        const controls = document.getElementById('controls');
-        controls.addEventListener('click', function (event) {
-            if (event.target.tagName === 'INPUT') {
-                const selectedAnimation = event.target.id;
-                switch (selectedAnimation) {
-                    case 'idle':
-                        jerry.frameY = 0;
-                        break;
-                    case 'barking':
-                        jerry.frameY = 1;
-                        break;
-                    case 'walking':
-                        jerry.frameY = 2;
-                        break;
-                    default:
-                        break;
-                }
-     jerry.draw(ctx);
-
-            }
-        });
-    });
-</script>
