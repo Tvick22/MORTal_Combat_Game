@@ -12,6 +12,7 @@ title: Pre Game Screen
 
 
 <div style="display: flex; justify-content: center; align-items: center;">
-    <img src="images/titlescreen.png" alt="Title Screen">
+    <a href="https://tvick22.github.io/MORTal_Combat_Game/2023/11/02/New_Game.html">
+    <img src="images/pokemort1.png" alt="Title Screen">
 </div>
 
