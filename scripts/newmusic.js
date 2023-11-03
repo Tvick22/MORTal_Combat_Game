@@ -1,11 +1,11 @@
 // Define an object to map background IDs to their corresponding music files
 const backgroundMusicMap = {
-    housefloor2: '../../../assets/css/music/Banjo_Music.mp3',
-    housefloor1: '../../../assets/css/music/Banjo_Music.mp3',
-    avenidaTown: '../../../assets/css/music/Avenida_Town_Music.mp3',
-    route1: '../../../assets/css/music/Route_Music.mp3',
-    academy: '../../../assets/css/music/Academy_Music.mp3',
-    lab: '../../../assets/css/music/Academy_Town_Music.mp3',
+    housefloor2: '../../../assets/music/Banjo_Music.mp3',
+    housefloor1: '../../../assets/music/Banjo_Music.mp3',
+    avenidaTown: '../../../assets/music/Avenida_Town_Music.mp3',
+    route1: '../../../assets/music/Route_Music.mp3',
+    academy: '../../../assets/music/Academy_Music.mp3',
+    lab: '../../../assets/music/Academy_Town_Music.mp3',
   };
   
   // Define an object to map background IDs to audio elements

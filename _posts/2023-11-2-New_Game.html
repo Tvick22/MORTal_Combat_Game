@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Everything
-description: No Mort yet
+title: Game
+description: 
 type: game
 courses: { version: {week: 2} }
 ---
@@ -12,37 +12,41 @@ courses: { version: {week: 2} }
     <div id="gameWrapper" class="gameWrapper">
         <div id="frameWrapper" class="frameWrapper">
             <div id="topMenu">
-                <button class="topMenuBtn" id="mainMenuBtn">Main Menu</button>
-                <button class="topMenuBtn" id="inventoryBtn">Inventory</button>
-                <button class="topMenuBtn" id="mapBtn">Map</button>
+                <button class="topMenuBtn" id="dialogueBtn" onclick="toggleDialogue()"> Talk </button>
                 <button class="topMenuBtn" id="musicBtn">Toggle Music</button>
             </div>
+            <img id="MortTextbox" src="../../../images/morttextbox.png" alt="Mort Textbox" style="display: none; width: 300px; height: 200px">
+                <div id="textContent" class="textContainer" style="display: none">
+                    Oh, hello there!
+                </div>
             <canvas id="gameContainer">
+
+
                 <img id="loadingScreen" src="../../../images/loadingscreen.png"/>
                 <img class="backgroundImage" id="housefloor2" width="800" height="700" src="../../../images/housefloor2.png" showBoxes="false"/>
                 <img class="backgroundImage" id="housefloor1" width="800" height="700" src="../../../images/housefloor1.png" showBoxes="false"/>
                 <img class="backgroundImage" id="avenidaTown" width="800" height="700" src="../../../images/maps/AvenidaFull.png" showBoxes="false" newScaleFactor="0.6"/>
                 <img class="backgroundImage" id="route1" width="800" height="700" src="../../../images/maps/Route2.png" showBoxes="false" newScaleFactor="0.9"/>
                 <img class="backgroundImage" id="academy" width="800" height="700" src="../../../images/maps/Pokemort_AcademyFull.png" showBoxes="false" newScaleFactor="0.6"/>
-                <img class="backgroundImage" id="lab" width="800" height="700" src="../../../images/mortlabbackground.png" showBoxes="false"/>
-
+                <img class="backgroundImage" id="lab" width="800" height="700" src="../../../images/newlab.png" showBoxes="false"/>
+                
                 <img id="lopezSprite" src="../../../images/lopezspritesheet3.png">
                 <img id="mortSprite" src="../../../images/transparentmortspritesheet.png">
 
                 <audio id="houseAudio" preload="auto">
-                    <source src="{{ site.baseurl }}/assets/css/music/Banjo_Music.mp3" type="audio/mpeg">
+                    <source src="{{ site.baseurl }}/assets/music/Banjo_Music.mp3" type="audio/mpeg">
                 </audio>
                 <audio id="avenidaTownAudio">
-                    <source src="../../../assets/css/music/Avenida_Town_Music.mp3" type="audio/mpeg">
+                    <source src="../../../assets/music/Avenida_Town_Music.mp3" type="audio/mpeg">
                 </audio>
                 <audio id="route1Audio">
-                    <source src="../../../assets/css/music/Route_Music.mp3" type="audio/mpeg">
+                    <source src="../../../assets/music/Route_Music.mp3" type="audio/mpeg">
                 </audio>
                 <audio id="academyAudio">
-                    <source src="../../../assets/css/music/Academy_Music.mp3" type="audio/mpeg">
+                    <source src="../../../assets/music/Academy_Music.mp3" type="audio/mpeg">
                 </audio>
                 <audio id="labAudio">
-                    <source src="../../../assets/css/music/Academy_Town_Music.mp3" type="audio/mpeg">
+                    <source src="../../../assets/music/Academy_Town_Music.mp3" type="audio/mpeg">
                 </audio>
 
                 <div id="downStairsCarpet" is="collider-zone" width="60" height="105" x="560" y="230" newBackground="housefloor1" newX="700" newY="200" backgroundId="housefloor2"></div>
@@ -192,14 +196,72 @@ courses: { version: {week: 2} }
                 <div is="hit-box" height="139" width="2" x="798" y="142" backgroundId="lab"></div> <!-- right wall 2 -->
                 <div is="hit-box" height="134" width="2" x="0" y="144" backgroundId="lab"></div> <!-- left wall 1 -->
                 <div is="hit-box" height="44" width="2" x="0" y="424" backgroundId="lab"></div> <!-- left wall 2 -->
+                <div is="hit-box" height="112" width="79" x="372" y="208" backgroundId="lab"></div> <!-- Mort Sprite -->
             </canvas>   
+
+            <script> 
+                var text = document.getElementById("textContent");
+            </script>
         </div>
     </div>
 </html>
 
 <script src="../../../scripts/app.js" type="module"></script>
 
+<script>
+    var textbox = document.getElementById("MortTextbox");
+    var dialogLines = [
+        "You must be Shane Lopez.",
+        "Thanks for coming.",
+        "This is my lab.",
+        "Thanks for playing.",
+        // Add more dialogue lines as needed
+    ];
+
+    var currentLine = 0;
+
+    function updateText() {
+        if (currentLine < dialogLines.length) {
+            document.getElementById("textContent").textContent = dialogLines[currentLine];
+            currentLine++;
+        } else {
+            textbox.style.display = "none";
+            document.getElementById("textContent").style.display = "none";
+            currentLine = 0;
+        }
+    }
+
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "e" && document.getElementById("textContent").style.display === "block") {
+            updateText();
+        }
+    });
+
+// Function for Mort Textbox appearing
+    function toggleDialogue() {
+        var textbox = document.getElementById("MortTextbox");
+        var text = document.getElementById("textContent");
+
+        if (textbox.style.display === "none" || textbox.style.display === "") {
+            textbox.style.display = "block";
+            text.style.display = "block";
+        } else {
+            textbox.style.display = "none";
+            text.style.display = "none";
+        }
+    }
+</script>
+
 <style>
+     @font-face {
+        font-family: 'DP';
+        src: url('../../../assets/pokemon-dp-pro.ttf') format('truetype');
+    }
+
+    .textContainer {
+        font-family: 'DP', PokemonDP;
+    }
+
     .frameWrapper {
         margin: auto;
         border: 2px solid #00ADB5;
@@ -251,5 +313,14 @@ courses: { version: {week: 2} }
 
     #lopezSprite {
         z-index: 100;
+    }
+
+    #textContent {
+    position: absolute;
+    left: 450px !important; /* Adjust as needed */
+    top: 375px !important; /* Adjust as needed */
+    z-index: 2; /* Ensure text is above the canvas and textbox */
+    color: #000000;
+    font-size: 24px; /* Adjust font size as needed */
     }
 </style>
